@@ -1,4 +1,4 @@
-package com.example.gplx;
+package com.example.gplxb2;
 
 import org.junit.Test;
 

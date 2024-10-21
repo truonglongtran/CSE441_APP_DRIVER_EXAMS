@@ -1,4 +1,4 @@
-package com.example.gplx;
+package com.example.gplxb2;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.gplx", appContext.getPackageName());
+        assertEquals("com.example.gplxb2", appContext.getPackageName());
     }
 }

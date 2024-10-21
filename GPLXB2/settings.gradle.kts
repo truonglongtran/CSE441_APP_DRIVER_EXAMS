@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "GPLX"
+rootProject.name = "GPLXB2"
 include(":app")
  
