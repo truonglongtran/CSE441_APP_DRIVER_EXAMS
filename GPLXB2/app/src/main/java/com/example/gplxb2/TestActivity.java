@@ -6,7 +6,6 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +30,7 @@ import java.util.stream.Collectors;
 public class TestActivity extends AppCompatActivity {
 
     private TextView timerTextView, questionCounterTextView;
-    private Button submitButton;
-    private ImageButton  nextButton, backButton;
+    private Button submitButton, nextButton, backButton;
     private RecyclerView questionRecyclerView;
     private LinearLayoutManager layoutManager;
     private CountDownTimer countDownTimer;
@@ -43,7 +41,6 @@ public class TestActivity extends AppCompatActivity {
     private QuestionAdapter adapter; // Adapter for RecyclerView
     private ArrayList<Integer> incorrectAnswers;
     private DatabaseHelper databaseHelper;
-    private String title = ""; // Biến để lưu tiêu đề
 
     // Exam index
     private int examIndex = -1; // Mặc định -1 để random
@@ -87,6 +84,7 @@ public class TestActivity extends AppCompatActivity {
 
 
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
@@ -108,58 +106,22 @@ public class TestActivity extends AppCompatActivity {
         // Get the examIndex from intent
         examIndex = getIntent().getIntExtra("examsIndex", -1);
         Log.d("TestActivity", "examsIndex: " + examIndex);
-
-
-
-        if (examIndex > 1000) {
-            if (examIndex == 2001) {
+        if(examIndex >1000){
+            if (examIndex == 2001){
                 questions = loadCriticalQuestions();
-                title = "Các câu Điểm liệt"; // Gán tiêu đề cho câu hỏi quan trọng
-            } else {
+            }else {
                 questions = loadQuestionsByExamIndex(examIndex);
-                switch (examIndex) {
-                    case 2002:
-                        title = "Khái niệm quy tắc";
-                        break;
-                    case 2003:
-                        title = "Nghiệp vụ vận tải";
-                        break;
-                    case 2004:
-                        title = "Văn hóa giao thông";
-                        break;
-                    case 2005:
-                        title = "Kỹ thuật lái xe";
-                        break;
-                    case 2006:
-                        title = "Cấu tạo sửa chữa";
-                        break;
-                    case 2007:
-                        title = "Biển báo";
-                        break;
-                    case 2008:
-                        title = "Sa hình";
-                        break;
-                    default:
-                        title = "Đề thi " + examIndex; // Đặt tiêu đề mặc định
-                        break;
-                }
             }
-        } else if (examIndex == 60) {
+        }else if (examIndex == 60) {
             questions = loadCriticalQuestions(); // Load only critical questions
-            title = "Các câu Điểm liệt"; // Tiêu đề cho câu hỏi quan trọng
-        } else if (examIndex == 40) {
+        }else if (examIndex == 40) {
             questions = loadIncorrectQuestions(); // Load only top 50 questions
-            title = "Các câu bị sai"; // Tiêu đề cho câu bị sai
-        } else if (examIndex == 50) {
+        }else if (examIndex == 50) {
             questions = loadTop50(); // Load only top 50 questions
-            title = "Top các câu hay sai"; // Tiêu đề cho top câu hỏi
         } else if (examIndex != -1) {
             questions = loadQuestionsFromArray(arrays[examIndex]); // Load specific set of questions
-            int realExamIndex = examIndex + 1;
-            title = "Đề thi " + realExamIndex ; // Tiêu đề cho đề thi cụ thể
         } else {
             questions = loadQuestionsFromJson(); // Load random questions
-            title = "Đề ngẫu nhiên"; // Tiêu đề cho đề ngẫu nhiên
         }
 
         criticals = loadCriticalQuestionsFromJson();
@@ -194,7 +156,7 @@ public class TestActivity extends AppCompatActivity {
         });
 
         // Set Submit button click listener
-        submitButton.setOnClickListener(v -> submitAnswers(title)); // Gửi tiêu đề khi nộp bài
+        submitButton.setOnClickListener(v -> submitAnswers());
     }
 
     // Update question counter
@@ -215,7 +177,7 @@ public class TestActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                submitAnswers(title);
+                submitAnswers();
             }
         }.start();
     }
@@ -228,11 +190,11 @@ public class TestActivity extends AppCompatActivity {
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
         // Gọi hàm submit khi người dùng rời khỏi Activity
-        submitAnswers(title);
+        submitAnswers();
     }
 
     // Gửi các câu trả lời và tính điểm
-    private void submitAnswers(String title) {
+    private void submitAnswers() {
         int score = 0; // Khởi tạo điểm số
         int incorrectCriticalCount = 0; // Số lượng câu trả lời sai cho các câu hỏi quan trọng
         Map<String, String> selectedAnswers = adapter.getSelectedAnswers(); // Lấy các câu trả lời đã chọn từ adapter
@@ -281,14 +243,13 @@ public class TestActivity extends AppCompatActivity {
         // Log ra các ID câu trả lời sai
         Log.d("TestActivity", "Các câu trả lời sai: " + incorrectAnswers);
 
-        // Prepare to start ResultActivity
+        // Hiển thị điểm số và chuyển đến ResultActivity
         Intent intent = new Intent(TestActivity.this, ResultActivity.class);
-        intent.putExtra("TITLE", title); // Gửi tiêu đề đề thi
         intent.putExtra("SCORE", score); // Truyền điểm số đến ResultActivity
         intent.putExtra("TOTAL_QUESTIONS", questions.size()); // Truyền tổng số câu hỏi
         intent.putExtra("INCORRECT_CRITICAL_COUNT", incorrectCriticalCount); // Truyền số lượng câu hỏi quan trọng sai
         startActivity(intent); // Chuyển đến ResultActivity
-        finish(); // Kết thúc activity này
+        finish(); // Tùy chọn để kết thúc activity này
     }
 
 

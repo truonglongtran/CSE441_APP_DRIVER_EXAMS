@@ -12,9 +12,7 @@
     <ImageView
         android:id="@+id/question_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true" />
+        android:layout_height="wrap_content" />
 
     <RadioGroup
         android:id="@+id/answer_group"

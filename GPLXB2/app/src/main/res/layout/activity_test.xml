@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#329BF1"
+        android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <!-- TextView hiển thị số câu hiện tại / tổng số câu -->
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="Chấm điểm"
+            android:text="Submit"
             android:textColor="@android:color/white"
             android:background="@android:color/transparent"
             android:textSize="16sp"
@@ -56,40 +56,23 @@
         android:layout_weight="1"
         android:orientation="horizontal"/>
 
-    <!-- Toolbar mới với các nút điều khiển -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/control_toolbar"
+    <!-- LinearLayout chứa các nút điều khiển -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#329BF1"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
 
-        <!-- Nút Back -->
-        <ImageButton
+        <Button
             android:id="@+id/back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="Back"
-            android:src="@drawable/back"
-            android:layout_gravity="start"
-            android:layout_marginStart="16dp" />
+            android:text="Back" />
 
-        <!-- Khoảng trống để đẩy nút Next sang bên phải -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <!-- Nút Next -->
-        <ImageButton
+        <Button
             android:id="@+id/next_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="Next"
-            android:src="@drawable/next"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp" />
-    </androidx.appcompat.widget.Toolbar>
+            android:text="Next" />
+    </LinearLayout>
 </LinearLayout>
