@@ -10,7 +10,9 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+    >
 
         <TextView
             android:id="@+id/textView"
@@ -21,7 +23,7 @@
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="600 Câu GPLX Ô tô "
+            android:text="600 Câu GPLX Bằng B2"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -29,86 +31,130 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <ImageButton
             android:id="@+id/btnrandom"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="16dp"
             app:srcCompat="@drawable/ngaunhien" />
 
         <ImageButton
             android:id="@+id/btnexact"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:paddingEnd="16dp"
             app:srcCompat="@drawable/bode" />
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <ImageButton
             android:id="@+id/btnfalseds"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="16dp"
             app:srcCompat="@drawable/causai" />
 
         <ImageButton
             android:id="@+id/btntrain"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:paddingEnd="16dp"
             app:srcCompat="@drawable/ontap" />
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <ImageButton
             android:id="@+id/btnbienbao"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="16dp"
             app:srcCompat="@drawable/bienbao" />
 
         <ImageButton
             android:id="@+id/btnremind"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:paddingEnd="16dp"
             app:srcCompat="@drawable/meo" />
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <ImageButton
             android:id="@+id/btnliet"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="16dp"
             app:srcCompat="@drawable/cauliet" />
 
         <ImageButton
             android:id="@+id/btntopfalseds"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:paddingEnd="16dp"
             app:srcCompat="@drawable/topsai" />
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <ImageButton
             android:id="@+id/btnmophong"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="16dp"
             app:srcCompat="@drawable/mophong" />
 
         <ImageButton
             android:id="@+id/btndeleteapp"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="130dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:paddingEnd="16dp"
             app:srcCompat="@drawable/noad" />
     </TableRow>
 </TableLayout>

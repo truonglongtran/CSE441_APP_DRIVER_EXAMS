@@ -1,40 +1,67 @@
-<!-- activity_result.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/result_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    > <!-- Canh giữa toàn bộ nội dung -->
 
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#329BF1"
+        android:layout_marginBottom="150dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <!-- TextView hiển thị tiêu đề -->
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:textStyle="bold"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Sử dụng android:layout_weight để căn giữa theo chiều dọc -->
     <TextView
         android:id="@+id/result_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:layout_marginBottom="8dp"
+    android:layout_gravity="center"
+  /> <!-- Phân bổ không gian đồng đều -->
 
     <TextView
         android:id="@+id/total_questions_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_gravity="center"/>
+    android:textSize="18sp"
+    android:layout_marginBottom="8dp"
+    android:layout_gravity="center"
+   /> <!-- Phân bổ không gian đồng đều -->
 
     <TextView
         android:id="@+id/result_message"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="18sp"
-    android:layout_gravity="center"
-    android:paddingTop="16dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="150dp"
+        android:gravity="center"
+    /> <!-- Phân bổ không gian đồng đều -->
 
     <Button
         android:id="@+id/back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back to Main"
-        android:layout_gravity="center"
-        android:onClick="goToMain"/>
-
+        android:text="Quay về trang chủ"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#329BF1"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"/> <!-- Canh giữa nút -->
 </LinearLayout>

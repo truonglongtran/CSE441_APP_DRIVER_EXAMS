@@ -5,11 +5,13 @@
     android:layout_height="match_parent">
 
     <!-- Toolbar phía trên -->
+
+    <!-- Phần chứa các nút với khả năng cuộn xuống -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/top_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="#329BF1"
         android:elevation="4dp">
 
         <!-- Nút Back -->
@@ -17,14 +19,13 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back"
             android:layout_gravity="start"
-            android:textColor="@android:color/white"
-            android:background="?attr/colorAccent"
-            android:layout_marginStart="16dp" />
+            android:layout_marginStart="16dp"
+            android:backgroundTint="#329BF1"
+            android:text="Quay lại"
+            android:textColor="@android:color/white" />
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Phần chứa các nút với khả năng cuộn xuống -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -36,136 +37,192 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="2"
-            android:rowCount="9"
             android:padding="8dp"
             android:orientation="horizontal">
 
             <!-- Các nút xếp thành 2 cột -->
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                android:text="Đề 1" />
+            <!-- Tăng kích thước chữ -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="97dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 2" />
+                android:background="@drawable/blue_button_background"
+                android:text="Đề 1"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 3" />
+                android:text="Đề 2"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 4" />
+                android:text="Đề 3"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 5" />
+                android:text="Đề 4"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 6" />
+                android:text="Đề 5"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 7" />
+                android:text="Đề 6"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 8" />
+                android:text="Đề 7"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 9" />
+                android:text="Đề 8"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 10" />
+                android:text="Đề 9"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 11" />
+                android:text="Đề 10"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 12" />
+                android:text="Đề 11"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 13" />
+                android:text="Đề 12"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 14" />
+                android:text="Đề 13"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 15" />
+                android:text="Đề 14"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 16" />
+                android:background="@drawable/blue_button_background"
+                android:text="Đề 15"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 17" />
+                android:text="Đề 16"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:text="Đề 18" />
+                android:text="Đề 17"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="Đề 18"
+                android:background="@drawable/blue_button_background"
+                android:textSize="20sp"
+                android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
         </GridLayout>
     </ScrollView>
+
 </LinearLayout>
