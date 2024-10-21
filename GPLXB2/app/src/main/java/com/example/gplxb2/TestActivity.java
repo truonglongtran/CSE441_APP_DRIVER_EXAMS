@@ -339,15 +339,15 @@ public class TestActivity extends AppCompatActivity {
         return questionList;
     }
 
-    
 
 
-   
-    
 
-    // Load critical questions from JSON
-    private List<String> loadCriticalQuestionsFromJson() {
-        List<String> criticalList = new ArrayList<>();
+
+    // Load critical questions based on IDs from the criticals list
+    private List<Question> loadCriticalQuestions() {
+        List<Question> criticalQuestionList = new ArrayList<>();
+        criticals = loadCriticalQuestionsFromJson(); // Load critical question IDs
+
         try {
             InputStream is = getAssets().open("driver_data.json");
             byte[] buffer = new byte[is.available()];
@@ -356,19 +356,109 @@ public class TestActivity extends AppCompatActivity {
             String json = new String(buffer, StandardCharsets.UTF_8);
 
             JSONObject jsonObject = new JSONObject(json);
-            JSONArray criticalArray = jsonObject.getJSONArray("critical");
+            JSONArray questionArray = jsonObject.getJSONArray("question");
 
-            // Parse critical IDs from JSON
-            for (int i = 0; i < criticalArray.length(); i++) {
-                String criticalId = criticalArray.getString(i);
-                criticalList.add(criticalId);
+            // Parse questions from JSON and match with critical IDs
+            for (int i = 0; i < questionArray.length(); i++) {
+                JSONObject questionObj = questionArray.getJSONObject(i);
+                String id = questionObj.getString("id");
+
+                // Check if the current question ID is in the criticals list
+                if (criticals.contains(id)) {
+                    String questionText = questionObj.getString("question");
+
+                    JSONObject optionsJson = questionObj.getJSONObject("option");
+                    Options options = new Options(
+                            optionsJson.getString("a"),
+                            optionsJson.getString("b"),
+                            optionsJson.getString("c"),
+                            optionsJson.optString("d", null),
+                            optionsJson.optString("e", null)
+                    );
+
+                    String answer = questionObj.getString("answer");
+                    String suggest = questionObj.optString("suggest", "");
+
+                    // Load image if available
+                    JSONObject imageJson = questionObj.optJSONObject("image");
+                    Question.Image image = null;
+                    if (imageJson != null) {
+                        String img1 = imageJson.getString("img1");
+                        image = new Question.Image(img1);
+                    }
+
+                    // Create a new Question object and add it to the list
+                    Question question = new Question(id, questionText, options, answer, suggest, image);
+                    criticalQuestionList.add(question);
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return criticalList;
+        return criticalQuestionList;
     }
+    private List<Question> loadTop50() {
+        List<Question> top50QuestionList = new ArrayList<>();
+        // Chuyển arraystop50 thành List<Integer>
+        List<Integer> arrayStop50List = Arrays.stream(arraystop50).boxed().collect(Collectors.toList());
+
+        try {
+            InputStream is = getAssets().open("driver_data.json");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            is.close();
+            String json = new String(buffer, StandardCharsets.UTF_8);
+
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray questionArray = jsonObject.getJSONArray("question");
+
+            // Parse questions from JSON and match with IDs in arrayStop50
+            for (int i = 0; i < questionArray.length(); i++) {
+                JSONObject questionObj = questionArray.getJSONObject(i);
+                String id = questionObj.getString("id");
+
+                // Chuyển ID từ String sang Integer để so sánh
+                int questionId = Integer.parseInt(id);
+
+                // Kiểm tra nếu ID câu hỏi có nằm trong arrayStop50
+                if (arrayStop50List.contains(questionId)) {
+                    String questionText = questionObj.getString("question");
+
+                    JSONObject optionsJson = questionObj.getJSONObject("option");
+                    Options options = new Options(
+                            optionsJson.getString("a"),
+                            optionsJson.getString("b"),
+                            optionsJson.getString("c"),
+                            optionsJson.optString("d", null),
+                            optionsJson.optString("e", null)
+                    );
+
+                    String answer = questionObj.getString("answer");
+                    String suggest = questionObj.optString("suggest", "");
+
+                    // Load image if available
+                    JSONObject imageJson = questionObj.optJSONObject("image");
+                    Question.Image image = null;
+                    if (imageJson != null) {
+                        String img1 = imageJson.getString("img1");
+                        image = new Question.Image(img1);
+                    }
+
+                    // Create a new Question object and add it to the list
+                    Question question = new Question(id, questionText, options, answer, suggest, image);
+                    top50QuestionList.add(question);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return top50QuestionList;
+    }
+
+
+
 
     // Load questions from JSON file for random selection
     private List<Question> loadQuestionsFromJson() {
@@ -425,5 +515,58 @@ public class TestActivity extends AppCompatActivity {
     }
 
     // Load questions based on specific array for non-random selection
- 
+    private List<Question> loadQuestionsFromArray(int[] questionIds) {
+        List<Question> questionList = new ArrayList<>();
+        try {
+            InputStream is = getAssets().open("driver_data.json");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            is.close();
+            String json = new String(buffer, StandardCharsets.UTF_8);
+
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray questionArray = jsonObject.getJSONArray("question");
+
+            // Parse questions from JSON and match with questionIds
+            for (int i = 0; i < questionArray.length(); i++) {
+                JSONObject questionObj = questionArray.getJSONObject(i);
+                String id = questionObj.getString("id");
+
+                // Only add questions that match the given array of IDs
+                for (int questionId : questionIds) {
+                    if (id.equals(String.valueOf(questionId))) {
+                        String questionText = questionObj.getString("question");
+
+                        JSONObject optionsJson = questionObj.getJSONObject("option");
+                        Options options = new Options(
+                                optionsJson.getString("a"),
+                                optionsJson.getString("b"),
+                                optionsJson.getString("c"),
+                                optionsJson.optString("d", null),
+                                optionsJson.optString("e", null)
+                        );
+
+                        String answer = questionObj.getString("answer");
+                        String suggest = questionObj.optString("suggest", "");
+
+                        // Load image if available
+                        JSONObject imageJson = questionObj.optJSONObject("image");
+                        Question.Image image = null;
+                        if (imageJson != null) {
+                            String img1 = imageJson.getString("img1");
+                            image = new Question.Image(img1);
+                        }
+
+                        Question question = new Question(id, questionText, options, answer, suggest, image);
+                        questionList.add(question);
+                        break;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return questionList;
+    }
 }
