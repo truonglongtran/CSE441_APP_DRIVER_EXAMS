@@ -1,19 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:stretchColumns="*">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_span="2"
+            android:background="#247AA8"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="600 Câu GPLX Ô tô "
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btnrandom"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/ngaunhien" />
+
+        <ImageButton
+            android:id="@+id/btnexact"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/bode" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btnfalseds"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/causai" />
+
+        <ImageButton
+            android:id="@+id/btntrain"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/ontap" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btnbienbao"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/bienbao" />
+
+        <ImageButton
+            android:id="@+id/btnremind"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/meo" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btnliet"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/cauliet" />
+
+        <ImageButton
+            android:id="@+id/btntopfalseds"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/topsai" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btnmophong"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/mophong" />
+
+        <ImageButton
+            android:id="@+id/btndeleteapp"
+            android:layout_width="200dp"
+            android:layout_height="130dp"
+            app:srcCompat="@drawable/noad" />
+    </TableRow>
+</TableLayout>
