@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TestActivity.class);
-                intent.putExtra("examsIndex", 60); // Truyền giá trị -1 cho btnRandom
+                intent.putExtra("examsIndex", 60);
                 startActivity(intent);
             }
         });
