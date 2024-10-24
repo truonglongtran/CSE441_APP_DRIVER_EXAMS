@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,8 +20,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,7 +28,7 @@ public class TestActivity extends AppCompatActivity {
 
     private TextView timerTextView, questionCounterTextView;
     private Button submitButton;
-    private ImageButton  nextButton, backButton;
+    private ImageButton nextButton, backButton;
     private RecyclerView questionRecyclerView;
     private LinearLayoutManager layoutManager;
     private CountDownTimer countDownTimer;
@@ -87,6 +83,7 @@ public class TestActivity extends AppCompatActivity {
 
 
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
@@ -108,8 +105,6 @@ public class TestActivity extends AppCompatActivity {
         // Get the examIndex from intent
         examIndex = getIntent().getIntExtra("examsIndex", -1);
         Log.d("TestActivity", "examsIndex: " + examIndex);
-
-
 
         if (examIndex > 1000) {
             if (examIndex == 2001) {
@@ -219,7 +214,7 @@ public class TestActivity extends AppCompatActivity {
             }
         }.start();
     }
-//    @Override
+    //    @Override
 //    public void onBackPressed() {
 //        // Gọi hàm submit khi nhấn nút quay lại
 //        submitAnswers();
@@ -281,14 +276,14 @@ public class TestActivity extends AppCompatActivity {
         // Log ra các ID câu trả lời sai
         Log.d("TestActivity", "Các câu trả lời sai: " + incorrectAnswers);
 
-        // Prepare to start ResultActivity
+        // Hiển thị điểm số và chuyển đến ResultActivity
         Intent intent = new Intent(TestActivity.this, ResultActivity.class);
         intent.putExtra("TITLE", title); // Gửi tiêu đề đề thi
         intent.putExtra("SCORE", score); // Truyền điểm số đến ResultActivity
         intent.putExtra("TOTAL_QUESTIONS", questions.size()); // Truyền tổng số câu hỏi
         intent.putExtra("INCORRECT_CRITICAL_COUNT", incorrectCriticalCount); // Truyền số lượng câu hỏi quan trọng sai
         startActivity(intent); // Chuyển đến ResultActivity
-        finish(); // Kết thúc activity này
+        finish(); // Tùy chọn để kết thúc activity này
     }
 
 
@@ -297,7 +292,6 @@ public class TestActivity extends AppCompatActivity {
         List<Integer> questionIdList;
 
         // Xác định mảng câu hỏi dựa trên examIndex
-        Log.d("TestAcitivity", "Giá trị của examIndex: " + examIndex);
         switch (examIndex) {
             case 2002:
                 questionIdList = Arrays.stream(khainiemQuytac).boxed().collect(Collectors.toList());
