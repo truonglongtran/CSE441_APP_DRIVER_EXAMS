@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +19,7 @@ public class ExamsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exams);
 
         // Initialize the back button
-        Button backButton = findViewById(R.id.back_button);
+        ImageButton backButton = findViewById(R.id.back_button);
 
         // Set OnClickListener for the back button
         backButton.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,9 @@ package com.example.gplxb2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +21,7 @@ public class DriverTypeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DriverTypeAdapter adapter;
     private List<DriverType> driverTypeList;
+    private ImageButton backButton; // Nút Back
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +29,7 @@ public class DriverTypeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_driver_type);
 
         recyclerView = findViewById(R.id.recyclerView);
+        backButton = findViewById(R.id.back_button); // Tham chiếu đến nút Back
         driverTypeList = new ArrayList<>();
 
         loadDriverTypes();
@@ -32,6 +37,17 @@ public class DriverTypeActivity extends AppCompatActivity {
         adapter = new DriverTypeAdapter(this, driverTypeList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        // Thiết lập sự kiện cho nút Back
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Quay lại MainActivity
+                Intent intent = new Intent(DriverTypeActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // Đóng DriverTypeActivity để không quay lại khi nhấn nút Back
+            }
+        });
     }
 
     private void loadDriverTypes() {

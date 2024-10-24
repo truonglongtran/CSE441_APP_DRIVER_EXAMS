@@ -297,6 +297,7 @@ public class TestActivity extends AppCompatActivity {
         List<Integer> questionIdList;
 
         // Xác định mảng câu hỏi dựa trên examIndex
+        Log.d("TestAcitivity", "Giá trị của examIndex: " + examIndex);
         switch (examIndex) {
             case 2002:
                 questionIdList = Arrays.stream(khainiemQuytac).boxed().collect(Collectors.toList());

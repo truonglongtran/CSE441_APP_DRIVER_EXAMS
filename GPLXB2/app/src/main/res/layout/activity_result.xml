@@ -64,4 +64,5 @@
         android:backgroundTint="#329BF1"
         android:layout_marginTop="16dp"
         android:layout_gravity="center"/> <!-- Canh giữa nút -->
+
 </LinearLayout>
