@@ -97,10 +97,11 @@ public class TestActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.next_btn);
         backButton = findViewById(R.id.back_btn);
         questionRecyclerView = findViewById(R.id.question_list);
-
-        // Setup RecyclerView with horizontal scrolling
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        questionRecyclerView.setOnTouchListener((v, event) -> true);
         questionRecyclerView.setLayoutManager(layoutManager);
+
+
 
         // Get the examIndex from intent
         examIndex = getIntent().getIntExtra("examsIndex", -1);
