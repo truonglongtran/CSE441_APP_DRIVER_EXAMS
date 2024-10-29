@@ -1,11 +1,14 @@
 package com.example.gplxb2;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -95,5 +98,49 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, TipsActivity.class);
             startActivity(intent);
         });
+        //btn btnmophong
+        ImageButton btnmophong = findViewById(R.id.btnmophong);
+        btnmophong.setOnClickListener(v -> {
+            // Tạo Intent với hành động ACTION_VIEW và URL của Facebook
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.AnG.Pro.Mo.Phong&hl=vi"));
+            startActivity(intent); // Mở trình duyệt với URL đã cung cấp
+        });
+        //btn btndeleteapp
+        ImageButton btndeleteapp = findViewById(R.id.btndeleteapp);
+        btndeleteapp.setOnClickListener(v -> {
+            // Tạo Intent với hành động ACTION_VIEW và URL của Facebook
+            Intent intent = new Intent(MainActivity.this, TipsActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnDeleteData = findViewById(R.id.btnDeleteData);
+        btnDeleteData.setOnClickListener(v -> {
+            // Tạo hộp thoại xác nhận
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Xác nhận xóa dữ liệu")
+                    .setMessage("Bạn có chắc chắn muốn xóa tất cả dữ liệu không?")
+                    .setPositiveButton("Đồng ý", (dialog, which) -> {
+                        // Người dùng chọn "Đồng ý" => Xóa dữ liệu
+                        DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
+                        databaseHelper.resetData(); // Gọi phương thức để reset dữ liệu
+
+                        // Tạo Intent trở lại MainActivity
+                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Xóa các Activity trước đó
+                        startActivity(intent);
+                        finish(); // Kết thúc Activity hiện tại để tránh quay lại
+                    })
+                    .setNegativeButton("Hủy", (dialog, which) -> {
+                        // Người dùng chọn "Hủy" => Đóng hộp thoại và trở về MainActivity
+                        dialog.dismiss(); // Đóng hộp thoại
+                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .show();
+        });
+
+
     }
 }

@@ -115,4 +115,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return examStatus; // Trả về null nếu không tìm thấy
     }
+    public void resetData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_INCORRECT_ANSWERS, null, null); // Xóa tất cả dữ liệu trong bảng incorrect_answers
+        db.delete(TABLE_EXAM_RESULTS, null, null); // Xóa tất cả dữ liệu trong bảng exam_results
+
+        // Khởi tạo lại dữ liệu mặc định cho bảng exam_results
+        for (int i = 0; i <= 17; i++) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COL_EXAM_INDEX, i);
+            contentValues.put(COL_EXAM_STATUS, 0); // Mặc định là 0
+            db.insert(TABLE_EXAM_RESULTS, null, contentValues);
+        }
+        db.close();
+    }
 }

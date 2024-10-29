@@ -157,4 +157,28 @@
             android:paddingEnd="16dp"
             app:srcCompat="@drawable/noad" />
     </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <!-- Nút để xóa dữ liệu -->
+        <Button
+            android:id="@+id/btnDeleteData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FF4444"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="Xóa Dữ Liệu"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center" />
+    </TableRow>
+
 </TableLayout>
