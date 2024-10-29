@@ -51,18 +51,19 @@ public class ExamsActivity extends AppCompatActivity {
                 // Change button background and text color based on exam status
                 switch (examStatus) {
                     case 1:
-                        examButton.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
-                        examButton.setTextColor(ContextCompat.getColor(ExamsActivity.this, android.R.color.white)); // Văn bản trắng
+                        examButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+                        examButton.setTextColor(ContextCompat.getColor(ExamsActivity.this, android.R.color.white));
                         break;
                     case -1:
-                        examButton.setBackgroundColor(ContextCompat.getColor(this, R.color.red)); // Nền đỏ
-                        examButton.setTextColor(ContextCompat.getColor(ExamsActivity.this, android.R.color.white)); // Văn bản trắng
+                        examButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.red));
+                        examButton.setTextColor(ContextCompat.getColor(ExamsActivity.this, android.R.color.white));
                         break;
                     default:
-                        examButton.setBackgroundColor(ContextCompat.getColor(this, R.color.MyBlue));
-                        examButton.setTextColor(ContextCompat.getColor(ExamsActivity.this, android.R.color.black)); // Văn bản đen
+                        examButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.MyBlue));
+                        examButton.setTextColor(ContextCompat.getColor(ExamsActivity.this, android.R.color.black));
                         break;
                 }
+
 
 
                 // Set OnClickListener for the button

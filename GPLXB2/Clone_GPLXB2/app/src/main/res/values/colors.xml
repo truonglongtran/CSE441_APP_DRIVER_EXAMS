@@ -4,5 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="MyBlue">#95CFFF</color>
     <color name="red">#FF0000</color>         <!-- Màu đỏ -->
-    <color name="green">#00FF00</color>       <!-- Màu xanh lá cây -->
+    <color name="green">#71D633</color>       <!-- Màu xanh lá cây -->
 </resources>

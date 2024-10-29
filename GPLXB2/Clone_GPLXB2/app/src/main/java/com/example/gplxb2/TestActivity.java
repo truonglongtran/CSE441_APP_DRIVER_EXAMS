@@ -1,5 +1,6 @@
 package com.example.gplxb2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -189,7 +191,7 @@ public class TestActivity extends AppCompatActivity {
         });
 
         // Set Submit button click listener
-        submitButton.setOnClickListener(v -> submitAnswers(title)); // Gửi tiêu đề khi nộp bài
+        submitButton.setOnClickListener(v -> showConfirmationDialog(title)); // Gửi tiêu đề khi nộp bài
     }
 
     // Update question counter
@@ -225,6 +227,31 @@ public class TestActivity extends AppCompatActivity {
         // Gọi hàm submit khi người dùng rời khỏi Activity
         submitAnswers(title);
     }
+    //hộp thoại xác nhận trước khi nộp bài
+    private void showConfirmationDialog(final String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận nộp bài");
+        builder.setMessage("Bạn có chắc chắn muốn nộp bài?");
+
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Gọi hàm submitAnswers khi người dùng xác nhận
+                submitAnswers(title);
+            }
+        });
+
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); // Đóng hộp thoại nếu người dùng chọn không
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     // Gửi các câu trả lời và tính điểm
     private void submitAnswers(String title) {
