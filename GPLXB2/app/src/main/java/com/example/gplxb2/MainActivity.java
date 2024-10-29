@@ -11,6 +11,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -66,11 +68,30 @@ public class MainActivity extends AppCompatActivity {
         btnfalseds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TestActivity.class);
-                intent.putExtra("examsIndex", 40); // Truyền giá trị -1 cho btnRandom
-                startActivity(intent);
+                DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
+
+                // Lấy danh sách các câu trả lời sai
+                ArrayList<Integer> incorrectAnswers = databaseHelper.getIncorrectAnswers();
+
+                if (incorrectAnswers.isEmpty()) {
+                    // Nếu không có câu sai nào, hiển thị hộp thoại thông báo
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Thông báo")
+                            .setMessage("Bạn không có câu sai nào chưa được sửa.")
+                            .setPositiveButton("Đồng ý", (dialog, which) -> {
+                                // Trở lại MainActivity
+                                dialog.dismiss();
+                            })
+                            .show();
+                } else {
+                    // Nếu có câu sai, chuyển đến TestActivity
+                    Intent intent = new Intent(MainActivity.this, TestActivity.class);
+                    intent.putExtra("examsIndex", 40); // Truyền giá trị examsIndex = 40
+                    startActivity(intent);
+                }
             }
         });
+
 
         //btn btntrain
         ImageButton btntrain = findViewById(R.id.btntrain);

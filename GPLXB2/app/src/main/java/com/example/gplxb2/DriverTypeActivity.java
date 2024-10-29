@@ -42,10 +42,9 @@ public class DriverTypeActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Quay lại MainActivity
                 Intent intent = new Intent(DriverTypeActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish(); // Đóng DriverTypeActivity để không quay lại khi nhấn nút Back
+                finish();
             }
         });
     }

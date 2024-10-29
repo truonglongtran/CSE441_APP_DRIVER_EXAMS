@@ -32,7 +32,6 @@ public class DriverTypeAdapter extends RecyclerView.Adapter<DriverTypeAdapter.Vi
         holder.titleTextView.setText(driverType.getTitle());
         holder.descriptionTextView.setText(driverType.getDescription());
 
-        // Hiển thị số lượng câu hỏi bên phải
         holder.quantityTextView.setText("Gồm: " + driverType.getQuantity() + " câu");
 
         holder.itemView.setOnClickListener(v -> {

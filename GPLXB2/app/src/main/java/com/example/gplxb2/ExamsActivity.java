@@ -23,10 +23,8 @@ public class ExamsActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this); // Initialize DatabaseHelper
 
-        // Initialize the back button
         ImageButton backButton = findViewById(R.id.back_button);
 
-        // Set OnClickListener for the back button
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,7 +34,6 @@ public class ExamsActivity extends AppCompatActivity {
             }
         });
 
-        // Get GridLayout
         GridLayout buttonGrid = findViewById(R.id.button_grid);
 
         for (int i = 0; i < buttonGrid.getChildCount(); i++) {
@@ -45,10 +42,8 @@ public class ExamsActivity extends AppCompatActivity {
             if (child instanceof Button) {
                 Button examButton = (Button) child;
 
-                // Get exam status from the database
                 int examStatus = databaseHelper.getExamStatus(examIndex);
 
-                // Change button background and text color based on exam status
                 switch (examStatus) {
                     case 1:
                         examButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
@@ -64,9 +59,6 @@ public class ExamsActivity extends AppCompatActivity {
                         break;
                 }
 
-
-
-                // Set OnClickListener for the button
                 examButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
