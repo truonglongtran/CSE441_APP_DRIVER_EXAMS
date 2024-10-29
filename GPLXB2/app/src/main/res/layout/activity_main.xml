@@ -172,6 +172,7 @@
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
             android:paddingTop="10dp"
+            android:layout_marginTop="5dp"
             android:paddingBottom="10dp"
             android:text="Xóa Dữ Liệu"
             android:textColor="#FFFFFF"
@@ -180,5 +181,4 @@
             android:layout_marginBottom="16dp"
             android:layout_gravity="center" />
     </TableRow>
-
 </TableLayout>
