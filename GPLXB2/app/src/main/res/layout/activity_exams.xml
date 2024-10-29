@@ -71,7 +71,6 @@
                 android:layout_height="97dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:background="@drawable/blue_button_background"
                 android:text="Đề 1"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
@@ -82,7 +81,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 2"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -92,7 +90,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 3"
-                android:background="@drawable/blue_button_background"
+
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -102,7 +100,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 4"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -112,7 +109,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 5"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -122,7 +118,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 6"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -132,7 +127,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 7"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -142,7 +136,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 8"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -152,7 +145,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 9"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -162,7 +154,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 10"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -172,7 +163,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 11"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -182,7 +172,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 12"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -192,7 +181,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 13"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -202,7 +190,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 14"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -211,7 +198,6 @@
                 android:layout_height="100dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                android:background="@drawable/blue_button_background"
                 android:text="Đề 15"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
@@ -222,7 +208,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 16"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -232,7 +217,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 17"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
 
@@ -242,7 +226,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
                 android:text="Đề 18"
-                android:background="@drawable/blue_button_background"
                 android:textSize="20sp"
                 android:textColor="@android:color/black" /> <!-- Màu chữ đen -->
         </GridLayout>
