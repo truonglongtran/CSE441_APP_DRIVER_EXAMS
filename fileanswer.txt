@@ -1,4 +1,4 @@
-JSON đã được phân tích thành công!
+
 
 Đề 1:
 Câu 1: Answer = B
@@ -666,6 +666,3 @@ Câu 33: Answer = C
 Câu 34: Answer = A
 Câu 35: Answer = B
 
-
-** Process exited - Return Code: 0 **
-Press Enter to exit terminal
