@@ -160,7 +160,7 @@
                     app:srcCompat="@drawable/mophong" />
 
                 <ImageButton
-                    android:id="@+id/btndeleteapp"
+                    android:id="@+id/btnnoad"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"

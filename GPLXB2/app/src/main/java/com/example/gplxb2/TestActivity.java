@@ -226,34 +226,44 @@ public class TestActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onUserLeaveHint() {
-        super.onUserLeaveHint();
-        isLeavingActivity = true; // Đặt cờ khi Activity chuyển vào nền
-    }
+
+
+    private boolean isSubmitted = false; // Cờ để kiểm tra nếu đã gọi submitAnswers
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (isLeavingActivity) {
+        if (isLeavingActivity && !isSubmitted) {
             submitAnswers(title); // Nộp bài khi người dùng rời Activity
+            isSubmitted = true; // Đánh dấu rằng đã nộp bài
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (isLeavingActivity) {
+        if (isLeavingActivity && !isSubmitted) {
             submitAnswers(title); // Nộp bài khi Activity ngừng hoạt động hoàn toàn
+            isSubmitted = true; // Đánh dấu rằng đã nộp bài
         }
         isLeavingActivity = false; // Reset lại cờ khi quay trở lại Activity
     }
 
     @Override
     public void onBackPressed() {
-        submitAnswers(title); // Nộp bài khi người dùng nhấn nút Back
+        if (!isSubmitted) {
+            submitAnswers(title); // Nộp bài khi người dùng nhấn nút Back
+            isSubmitted = true; // Đánh dấu rằng đã nộp bài
+        }
         super.onBackPressed();
     }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        isLeavingActivity = true; // Đặt cờ khi Activity chuyển vào nền
+    }
+
     //hộp thoại xác nhận trước khi nộp bài
     private void showConfirmationDialog(final String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

@@ -126,13 +126,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.AnG.Pro.Mo.Phong&hl=vi"));
             startActivity(intent); // Mở trình duyệt với URL đã cung cấp
         });
-        //btn btndeleteapp
-        ImageButton btndeleteapp = findViewById(R.id.btndeleteapp);
-        btndeleteapp.setOnClickListener(v -> {
-            // Tạo Intent với hành động ACTION_VIEW và URL của Facebook
-            Intent intent = new Intent(MainActivity.this, TipsActivity.class);
-            startActivity(intent);
-        });
+
 
         Button btnDeleteData = findViewById(R.id.btnDeleteData);
         btnDeleteData.setOnClickListener(v -> {
