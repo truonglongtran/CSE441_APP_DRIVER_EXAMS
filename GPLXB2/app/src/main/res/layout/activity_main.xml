@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:stretchColumns="*">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
+    <!-- Fixed Top Row -->
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-    >
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_span="2"
             android:background="#247AA8"
             android:gravity="center"
             android:paddingTop="10dp"
@@ -29,156 +28,170 @@
             android:textStyle="bold" />
     </TableRow>
 
-    <TableRow
+
+    <!-- Scrollable Rows -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <ImageButton
-            android:id="@+id/btnrandom"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:paddingStart="16dp"
-            app:srcCompat="@drawable/ngaunhien" />
-
-        <ImageButton
-            android:id="@+id/btnexact"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:paddingEnd="16dp"
-            app:srcCompat="@drawable/bode" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
-
-        <ImageButton
-            android:id="@+id/btnfalseds"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:paddingStart="16dp"
-            app:srcCompat="@drawable/causai" />
-
-        <ImageButton
-            android:id="@+id/btntrain"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:paddingEnd="16dp"
-            app:srcCompat="@drawable/ontap" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
-
-        <ImageButton
-            android:id="@+id/btnbienbao"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:paddingStart="16dp"
-            app:srcCompat="@drawable/bienbao" />
-
-        <ImageButton
-            android:id="@+id/btnremind"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:paddingEnd="16dp"
-            app:srcCompat="@drawable/meo" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
-
-        <ImageButton
-            android:id="@+id/btnliet"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:paddingStart="16dp"
-            app:srcCompat="@drawable/cauliet" />
-
-        <ImageButton
-            android:id="@+id/btntopfalseds"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:paddingEnd="16dp"
-            app:srcCompat="@drawable/topsai" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
-
-        <ImageButton
-            android:id="@+id/btnmophong"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:paddingStart="16dp"
-            app:srcCompat="@drawable/mophong" />
-
-        <ImageButton
-            android:id="@+id/btndeleteapp"
-            android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:paddingEnd="16dp"
-            app:srcCompat="@drawable/noad" />
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:gravity="center_horizontal">
-
-        <!-- Nút để xóa dữ liệu -->
-        <Button
-            android:id="@+id/btnDeleteData"
-            android:layout_width="wrap_content"
+        <TableLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FF4444"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
-            android:paddingTop="10dp"
-            android:layout_marginTop="5dp"
-            android:paddingBottom="10dp"
-            android:text="Xóa Dữ Liệu"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="center" />
-    </TableRow>
-</TableLayout>
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageButton
+                    android:id="@+id/btnrandom"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:paddingStart="16dp"
+                    app:srcCompat="@drawable/ngaunhien" />
+
+                <ImageButton
+                    android:id="@+id/btnexact"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:paddingEnd="16dp"
+                    app:srcCompat="@drawable/bode" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageButton
+                    android:id="@+id/btnfalseds"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:paddingStart="16dp"
+                    app:srcCompat="@drawable/causai" />
+
+                <ImageButton
+                    android:id="@+id/btntrain"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:paddingEnd="16dp"
+                    app:srcCompat="@drawable/ontap" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageButton
+                    android:id="@+id/btnbienbao"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:paddingStart="16dp"
+                    app:srcCompat="@drawable/bienbao" />
+
+                <ImageButton
+                    android:id="@+id/btnremind"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:paddingEnd="16dp"
+                    app:srcCompat="@drawable/meo" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageButton
+                    android:id="@+id/btnliet"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:paddingStart="16dp"
+                    app:srcCompat="@drawable/cauliet" />
+
+                <ImageButton
+                    android:id="@+id/btntopfalseds"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:paddingEnd="16dp"
+                    app:srcCompat="@drawable/topsai" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageButton
+                    android:id="@+id/btnmophong"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:paddingStart="16dp"
+                    app:srcCompat="@drawable/mophong" />
+
+                <ImageButton
+                    android:id="@+id/btndeleteapp"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:paddingEnd="16dp"
+                    app:srcCompat="@drawable/noad" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:gravity="center_horizontal">
+
+                <!-- Nút để xóa dữ liệu -->
+                <Button
+                    android:id="@+id/btnDeleteData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#FF4444"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
+                    android:paddingTop="10dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingBottom="10dp"
+                    android:text="Xóa Dữ Liệu"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"
+                    android:layout_gravity="center" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+</LinearLayout>
