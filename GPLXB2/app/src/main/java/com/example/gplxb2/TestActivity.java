@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,7 +33,6 @@ public class TestActivity extends AppCompatActivity {
     private Button submitButton;
     private ImageButton nextButton, backButton;
     private RecyclerView questionRecyclerView;
-    private LinearLayoutManager layoutManager;
     private CountDownTimer countDownTimer;
     private int currentPosition = 0;
     private int totalQuestions = 0;
@@ -199,28 +199,32 @@ public class TestActivity extends AppCompatActivity {
         questionCounterTextView.setText((currentPosition + 1) + "/" + totalQuestions);
     }
 
-    // Start the timer
     private void startTimer() {
-        countDownTimer = new CountDownTimer(10 * 60 * 1000, 1000) { // 10 minutes
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long minutes = millisUntilFinished / 60000;
-                long seconds = (millisUntilFinished % 60000) / 1000;
-                String timeLeft = String.format("%02d:%02d", minutes, seconds);
-                timerTextView.setText("Time: " + timeLeft);
-            }
+        if (examIndex < 40) {
+            // Dừng 2 giây trước khi bắt đầu đếm ngược
+            new Handler().postDelayed(() -> {
+                countDownTimer = new CountDownTimer(22 * 60 * 1000, 1000) { // 22 minutes
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        long minutes = millisUntilFinished / 60000;
+                        long seconds = (millisUntilFinished % 60000) / 1000;
+                        String timeLeft = String.format("%02d:%02d", minutes, seconds);
+                        timerTextView.setText("Time: " + timeLeft); // Hiển thị thời gian còn lại
+                    }
 
-            @Override
-            public void onFinish() {
-                submitAnswers(title);
-            }
-        }.start();
+                    @Override
+                    public void onFinish() {
+                        submitAnswers(title); // Nộp bài khi hết giờ
+                    }
+                }.start();
+            }, 2000); // 2000 milliseconds = 2 seconds
+        } else {
+            // Hiển thị title nếu examIndex >= 40, không có bộ đếm thời gian
+            timerTextView.setText(title);
+        }
     }
-    //    @Override
-//    public void onBackPressed() {
-//        // Gọi hàm submit khi nhấn nút quay lại
-//        submitAnswers();
-//    }
+
+
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
