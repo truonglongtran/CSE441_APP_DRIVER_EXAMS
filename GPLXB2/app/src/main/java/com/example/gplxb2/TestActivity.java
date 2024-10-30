@@ -42,6 +42,8 @@ public class TestActivity extends AppCompatActivity {
     private ArrayList<Integer> incorrectAnswers;
     private DatabaseHelper databaseHelper;
     private String title = ""; // Biến để lưu tiêu đề
+    private boolean isLeavingActivity = false;
+
 
     // Exam index
     private int examIndex = -1; // Mặc định -1 để random
@@ -224,12 +226,33 @@ public class TestActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        // Gọi hàm submit khi người dùng rời khỏi Activity
-        submitAnswers(title);
+        isLeavingActivity = true; // Đặt cờ khi Activity chuyển vào nền
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isLeavingActivity) {
+            submitAnswers(title); // Nộp bài khi người dùng rời Activity
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (isLeavingActivity) {
+            submitAnswers(title); // Nộp bài khi Activity ngừng hoạt động hoàn toàn
+        }
+        isLeavingActivity = false; // Reset lại cờ khi quay trở lại Activity
+    }
+
+    @Override
+    public void onBackPressed() {
+        submitAnswers(title); // Nộp bài khi người dùng nhấn nút Back
+        super.onBackPressed();
     }
     //hộp thoại xác nhận trước khi nộp bài
     private void showConfirmationDialog(final String title) {
