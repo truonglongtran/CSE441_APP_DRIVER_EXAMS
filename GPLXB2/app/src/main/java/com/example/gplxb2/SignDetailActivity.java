@@ -22,30 +22,26 @@ public class SignDetailActivity extends AppCompatActivity {
         descriptionTextView = findViewById(R.id.text_description);
         imageView = findViewById(R.id.image_view);
 
-        // Lấy dữ liệu từ intent
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         String description = intent.getStringExtra("description");
         String imagePath = intent.getStringExtra("imagePath");
 
-        // Hiển thị dữ liệu
         nameTextView.setText(name);
         descriptionTextView.setText(description);
         Glide.with(this)
                 .load(imagePath)
-                .placeholder(R.drawable.bienbao) // Hình ảnh mặc định khi đang tải
-                .error(R.drawable.bienbao) // Hình ảnh khi có lỗi tải
+                .placeholder(R.drawable.bienbao)
+                .error(R.drawable.bienbao)
                 .into(imageView);
 
-        // Thiết lập nút Back
         findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Kết thúc activity hiện tại
+                finish(); 
             }
         });
 
-        // Cập nhật tiêu đề cho Toolbar
         TextView toolbarTitle = findViewById(R.id.txt_detail_sign);
         toolbarTitle.setText(name); // Cập nhật tên biển báo vào TextView
     }
