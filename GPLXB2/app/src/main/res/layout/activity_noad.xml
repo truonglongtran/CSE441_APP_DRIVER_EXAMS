@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:text="Các bộ đề"
+        android:text="No ads"
         android:textColor="@android:color/white"
         android:textSize="18sp"/>
   </androidx.appcompat.widget.Toolbar>
