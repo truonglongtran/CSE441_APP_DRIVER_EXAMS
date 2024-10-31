@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class TestActivity extends AppCompatActivity {
@@ -93,27 +95,22 @@ public class TestActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
         incorrectAnswers = databaseHelper.getIncorrectAnswers();
-        // Initialize views
         timerTextView = findViewById(R.id.timer);
         questionCounterTextView = findViewById(R.id.question_counter);
         submitButton = findViewById(R.id.submit_btn);
         nextButton = findViewById(R.id.next_btn);
         backButton = findViewById(R.id.back_btn);
         questionRecyclerView = findViewById(R.id.question_list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        questionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         questionRecyclerView.setOnTouchListener((v, event) -> true);
-        questionRecyclerView.setLayoutManager(layoutManager);
 
-
-
-        // Get the examIndex from intent
         examIndex = getIntent().getIntExtra("examsIndex", -1);
         Log.d("TestActivity", "examsIndex: " + examIndex);
 
         if (examIndex > 1000) {
             if (examIndex == 2001) {
                 questions = loadCriticalQuestions();
-                title = "Các câu Điểm liệt"; // Gán tiêu đề cho câu hỏi quan trọng
+                title = "Các câu Điểm liệt";
             } else {
                 questions = loadQuestionsByExamIndex(examIndex);
                 switch (examIndex) {
@@ -139,42 +136,34 @@ public class TestActivity extends AppCompatActivity {
                         title = "Sa hình";
                         break;
                     default:
-                        title = "Đề thi " + examIndex; // Đặt tiêu đề mặc định
+                        title = "Đề thi " + examIndex;
                         break;
                 }
             }
         } else if (examIndex == 60) {
-            questions = loadCriticalQuestions(); // Load only critical questions
-            title = "Các câu Điểm liệt"; // Tiêu đề cho câu hỏi quan trọng
+            questions = loadCriticalQuestions();
+            title = "Các câu Điểm liệt";
         } else if (examIndex == 40) {
-            questions = loadIncorrectQuestions(); // Load only top 50 questions
-            title = "Các câu bị sai"; // Tiêu đề cho câu bị sai
+            questions = loadIncorrectQuestions();
+            title = "Các câu bị sai";
         } else if (examIndex == 50) {
-            questions = loadTop50(); // Load only top 50 questions
-            title = "Top các câu hay sai"; // Tiêu đề cho top câu hỏi
+            questions = loadTop50();
+            title = "Top các câu hay sai";
         } else if (examIndex != -1) {
-            questions = loadQuestionsFromArray(arrays[examIndex]); // Load specific set of questions
-            int realExamIndex = examIndex + 1;
-            title = "Đề thi " + realExamIndex ; // Tiêu đề cho đề thi cụ thể
+            questions = loadQuestionsFromArray(arrays[examIndex]);
+            title = "Đề thi " + (examIndex + 1);
         } else {
-            questions = loadQuestionsFromJson(); // Load random questions
-            title = "Đề ngẫu nhiên"; // Tiêu đề cho đề ngẫu nhiên
+            questions = loadQuestionsFromJson();
+            title = "Đề ngẫu nhiên";
         }
 
         criticals = loadCriticalQuestionsFromJson();
         totalQuestions = questions.size();
-
-        // Setup adapter and pass the callback for answer selection
-        adapter = new QuestionAdapter(questions, criticals); // Pass criticals to adapter
+        adapter = new QuestionAdapter(questions, criticals);
         questionRecyclerView.setAdapter(adapter);
-
-        // Update question counter
         updateQuestionCounter();
-
-        // Start timer
         startTimer();
 
-        // Set Next button click listener
         nextButton.setOnClickListener(v -> {
             if (currentPosition < totalQuestions - 1) {
                 currentPosition++;
@@ -183,7 +172,6 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
-        // Set Back button click listener
         backButton.setOnClickListener(v -> {
             if (currentPosition > 0) {
                 currentPosition--;
@@ -192,18 +180,15 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
-        // Set Submit button click listener
-        submitButton.setOnClickListener(v -> showConfirmationDialog(title)); // Gửi tiêu đề khi nộp bài
+        submitButton.setOnClickListener(v -> showConfirmationDialog(title));
     }
 
-    // Update question counter
     private void updateQuestionCounter() {
         questionCounterTextView.setText((currentPosition + 1) + "/" + totalQuestions);
     }
 
     private void startTimer() {
         if (examIndex < 40) {
-            // Dừng 2 giây trước khi bắt đầu đếm ngược
             new Handler().postDelayed(() -> {
                 countDownTimer = new CountDownTimer(22 * 60 * 1000, 1000) { // 22 minutes
                     @Override
@@ -211,22 +196,19 @@ public class TestActivity extends AppCompatActivity {
                         long minutes = millisUntilFinished / 60000;
                         long seconds = (millisUntilFinished % 60000) / 1000;
                         String timeLeft = String.format("%02d:%02d", minutes, seconds);
-                        timerTextView.setText("Time: " + timeLeft); // Hiển thị thời gian còn lại
+                        timerTextView.setText("Time: " + timeLeft);
                     }
-
                     @Override
                     public void onFinish() {
-                        submitAnswers(title); // Nộp bài khi hết giờ
+                        submitAnswers(title);
                     }
                 }.start();
-            }, 2000); // 2000 milliseconds = 2 seconds
+            }, 2000);
         } else {
             // Hiển thị title nếu examIndex >= 40, không có bộ đếm thời gian
             timerTextView.setText(title);
         }
     }
-
-
 
     private boolean isSubmitted = false; // Cờ để kiểm tra nếu đã gọi submitAnswers
 
@@ -290,459 +272,193 @@ public class TestActivity extends AppCompatActivity {
     }
 
 
-    // Gửi các câu trả lời và tính điểm
     private void submitAnswers(String title) {
-        int score = 0; // Khởi tạo điểm số
-        int incorrectCriticalCount = 0; // Số lượng câu trả lời sai cho các câu hỏi quan trọng
-        Map<String, String> selectedAnswers = adapter.getSelectedAnswers(); // Lấy các câu trả lời đã chọn từ adapter
-
-        // Lấy danh sách các câu hỏi từ cơ sở dữ liệu
+        int score = 0, incorrectCriticalCount = 0;
+        Map<String, String> selectedAnswers = adapter.getSelectedAnswers();
         ArrayList<Integer> incorrectAnswersFromDB = databaseHelper.getIncorrectAnswers();
 
-        // So sánh câu trả lời của người dùng với các câu trả lời đúng
         for (Question question : questions) {
-            String userAnswer = selectedAnswers.get(question.getId()); // Lấy câu trả lời của người dùng
+            String userAnswer = selectedAnswers.get(question.getId());
+            Integer questionId = Integer.parseInt(question.getId());
 
-            // Kiểm tra nếu câu hỏi là câu hỏi quan trọng
-            if (criticals.contains(question.getId())) {
-                // Nếu câu trả lời sai hoặc không được chọn
-                if (userAnswer == null || !userAnswer.equals(question.getAnswer())) {
-                    incorrectCriticalCount++; // Tăng số lượng câu hỏi quan trọng trả lời sai
-                }
+            if (criticals.contains(question.getId()) && (userAnswer == null || !userAnswer.equals(question.getAnswer()))) {
+                incorrectCriticalCount++;
             }
 
-            // Kiểm tra nếu câu trả lời sai
             if (userAnswer == null || !userAnswer.equals(question.getAnswer())) {
-                // Chuyển đổi ID câu hỏi sang Integer
-                Integer questionId = Integer.parseInt(question.getId());
-
-                // Kiểm tra nếu ID chưa có trong danh sách
                 if (!incorrectAnswers.contains(questionId)) {
-                    incorrectAnswers.add(questionId); // Thêm ID câu hỏi sai vào danh sách
-                    databaseHelper.insertIncorrectAnswer(questionId); // Thêm vào cơ sở dữ liệu
+                    incorrectAnswers.add(questionId);
+                    databaseHelper.insertIncorrectAnswer(questionId);
                 }
             } else {
-                // Nếu câu trả lời đúng, kiểm tra và xóa ID nếu có trong danh sách
-                Integer questionId = Integer.parseInt(question.getId());
-
                 if (incorrectAnswers.contains(questionId)) {
-                    incorrectAnswers.remove(questionId); // Xóa ID câu hỏi đúng khỏi danh sách nếu có
-                    databaseHelper.deleteCorrectAnswer(questionId); // Xóa khỏi cơ sở dữ liệu
+                    incorrectAnswers.remove(questionId);
+                    databaseHelper.deleteCorrectAnswer(questionId);
                 }
-                // Tăng điểm cho câu trả lời đúng
-                score++; // Tăng điểm cho câu trả lời đúng
+                score++;
             }
         }
 
-        // Sắp xếp danh sách các câu trả lời sai theo thứ tự tăng dần
-        Collections.sort(incorrectAnswers); // Sắp xếp danh sách
-
-        // Log ra các ID câu trả lời sai
+        Collections.sort(incorrectAnswers);
         Log.d("TestActivity", "Các câu trả lời sai: " + incorrectAnswers);
 
-        // Hiển thị điểm số và chuyển đến ResultActivity
         Intent intent = new Intent(TestActivity.this, ResultActivity.class);
-        intent.putExtra("TITLE", title); // Gửi tiêu đề đề thi
-        intent.putExtra("SCORE", score); // Truyền điểm số đến ResultActivity
-        intent.putExtra("TOTAL_QUESTIONS", questions.size()); // Truyền tổng số câu hỏi
-        intent.putExtra("INCORRECT_CRITICAL_COUNT", incorrectCriticalCount); // Truyền số lượng câu hỏi quan trọng sai
-        intent.putExtra("EXAMS_INDEX", examIndex); // Truyền examsIndex đến ResultActivity
-        startActivity(intent); // Chuyển đến ResultActivity
-        finish(); // Tùy chọn để kết thúc activity này
+        intent.putExtra("TITLE", title);
+        intent.putExtra("SCORE", score);
+        intent.putExtra("TOTAL_QUESTIONS", questions.size());
+        intent.putExtra("INCORRECT_CRITICAL_COUNT", incorrectCriticalCount);
+        intent.putExtra("EXAMS_INDEX", examIndex);
+        startActivity(intent);
+        finish();
+    }
+
+    private List<Question> loadQuestionsByExamIndex(int examIndex) {
+        int[] questionIds;
+        switch (examIndex) {
+            case 2002: questionIds = khainiemQuytac; break;
+            case 2003: questionIds = nghiepvuVantai; break;
+            case 2004: questionIds = vanhoaGiaothong; break;
+            case 2005: questionIds = kithuatLaixe; break;
+            case 2006: questionIds = cautaoSuachua; break;
+            case 2007: questionIds = bienbao; break;
+            case 2008: questionIds = sahinh; break;
+            default: return new ArrayList<>();
+        }
+        return filterQuestionsByIds(questionIds);
     }
 
 
-    private List<Question> loadQuestionsByExamIndex(int examIndex) {
+    private List<Question> loadIncorrectQuestions() {
+        return filterQuestionsByIds(incorrectAnswers.stream().mapToInt(i -> i).toArray());
+    }
+
+    private List<Question> loadCriticalQuestions() {
+        List<String> criticalIds = loadCriticalQuestionsFromJson();
+        return filterQuestions(question -> criticalIds.contains(question.getId()));
+    }
+
+    private List<Question> loadTop50() {
+        return filterQuestionsByIds(Arrays.stream(arraystop50).boxed().mapToInt(i -> i).toArray());
+    }
+
+    private List<Question> loadQuestionsFromJson() {
+        List<Question> questionList = loadQuestionsFromFile();
+        Collections.shuffle(questionList);
+        return questionList.subList(0, Math.min(35, questionList.size()));
+    }
+
+    private List<Question> filterQuestionsByIds(int[] questionIds) {
+        List<Integer> idList = Arrays.stream(questionIds).boxed().collect(Collectors.toList());
+        return filterQuestions(question -> idList.contains(Integer.parseInt(question.getId())));
+    }
+
+    private List<Question> filterQuestions(Predicate<Question> filter) {
+        return loadQuestionsFromFile().stream().filter(filter).collect(Collectors.toList());
+    }
+
+    private List<Question> loadQuestionsFromFile() {
         List<Question> questionList = new ArrayList<>();
-        List<Integer> questionIdList;
-
-        // Xác định mảng câu hỏi dựa trên examIndex
-        switch (examIndex) {
-            case 2002:
-                questionIdList = Arrays.stream(khainiemQuytac).boxed().collect(Collectors.toList());
-                break;
-            case 2003:
-                questionIdList = Arrays.stream(nghiepvuVantai).boxed().collect(Collectors.toList());
-                break;
-            case 2004:
-                questionIdList = Arrays.stream(vanhoaGiaothong).boxed().collect(Collectors.toList());
-                break;
-            case 2005:
-                questionIdList = Arrays.stream(kithuatLaixe).boxed().collect(Collectors.toList());
-                break;
-            case 2006:
-                questionIdList = Arrays.stream(cautaoSuachua).boxed().collect(Collectors.toList());
-                break;
-            case 2007:
-                questionIdList = Arrays.stream(bienbao).boxed().collect(Collectors.toList());
-                break;
-            case 2008:
-                questionIdList = Arrays.stream(sahinh).boxed().collect(Collectors.toList());
-                break;
-            default:
-                // Trường hợp không hợp lệ
-                return questionList;
-        }
-
-        try {
-            InputStream is = getAssets().open("driver_data.json");
+        try (InputStream is = getAssets().open("driver_data.json")) {
             byte[] buffer = new byte[is.available()];
             is.read(buffer);
-            is.close();
             String json = new String(buffer, StandardCharsets.UTF_8);
+            JSONArray questionArray = new JSONObject(json).getJSONArray("question");
 
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray questionArray = jsonObject.getJSONArray("question");
-
-            // Phân tích câu hỏi từ JSON và kiểm tra ID trong questionIdList
             for (int i = 0; i < questionArray.length(); i++) {
-                JSONObject questionObj = questionArray.getJSONObject(i);
-                String id = questionObj.getString("id");
-
-                // Chuyển ID từ String sang Integer để so sánh
-                int questionId = Integer.parseInt(id);
-
-                // Kiểm tra nếu ID câu hỏi có nằm trong questionIdList
-                if (questionIdList.contains(questionId)) {
-                    String questionText = questionObj.getString("question");
-
-                    JSONObject optionsJson = questionObj.getJSONObject("option");
-                    Options options = new Options(
-                            optionsJson.getString("a"),
-                            optionsJson.getString("b"),
-                            optionsJson.getString("c"),
-                            optionsJson.optString("d", null),
-                            optionsJson.optString("e", null)
-                    );
-
-                    String answer = questionObj.getString("answer");
-                    String suggest = questionObj.optString("suggest", "");
-
-                    // Load image if available
-                    JSONObject imageJson = questionObj.optJSONObject("image");
-                    Question.Image image = null;
-                    if (imageJson != null) {
-                        String img1 = imageJson.getString("img1");
-                        image = new Question.Image(img1);
-                    }
-
-                    // Tạo một đối tượng Question mới và thêm vào danh sách
-                    Question question = new Question(id, questionText, options, answer, suggest, image);
-                    questionList.add(question);
-                }
+                Question question = parseQuestion(questionArray.getJSONObject(i));
+                if (question != null) questionList.add(question);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return questionList;
     }
 
-    private List<Question> loadIncorrectQuestions() {
-        List<Question> incorrectQuestionList = new ArrayList<>();
-        try {
-            InputStream is = getAssets().open("driver_data.json");
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-            is.close();
-            String json = new String(buffer, StandardCharsets.UTF_8);
-
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray questionArray = jsonObject.getJSONArray("question");
-
-            // Log để xem giá trị của incorrectAnswers
-            Log.d("IncorrectAnswers", "List of incorrect answers: " + incorrectAnswers.toString());
-
-            // Lọc câu hỏi dựa trên ID trong incorrectAnswers
-            for (int i = 0; i < questionArray.length(); i++) {
-                JSONObject questionObj = questionArray.getJSONObject(i);
-                String id = questionObj.getString("id");
-
-                // Kiểm tra nếu ID nằm trong mảng incorrectAnswers
-                if (incorrectAnswers.contains(Integer.parseInt(id))) {
-                    String questionText = questionObj.getString("question");
-
-                    JSONObject optionsJson = questionObj.getJSONObject("option");
-                    Options options = new Options(
-                            optionsJson.getString("a"),
-                            optionsJson.getString("b"),
-                            optionsJson.getString("c"),
-                            optionsJson.optString("d", null),
-                            optionsJson.optString("e", null)
-                    );
-
-                    String answer = questionObj.getString("answer");
-                    String suggest = questionObj.optString("suggest", "");
-
-                    // Load image if available
-                    JSONObject imageJson = questionObj.optJSONObject("image");
-                    Question.Image image = null;
-                    if (imageJson != null) {
-                        String img1 = imageJson.getString("img1");
-                        image = new Question.Image(img1);
-                    }
-
-                    // Tạo đối tượng Question và thêm vào danh sách
-                    Question question = new Question(id, questionText, options, answer, suggest, image);
-                    incorrectQuestionList.add(question);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return incorrectQuestionList;
-    }
-
-
-
-    // Load critical questions based on IDs from the criticals list
-    private List<Question> loadCriticalQuestions() {
-        List<Question> criticalQuestionList = new ArrayList<>();
-        criticals = loadCriticalQuestionsFromJson(); // Load critical question IDs
-
-        try {
-            InputStream is = getAssets().open("driver_data.json");
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-            is.close();
-            String json = new String(buffer, StandardCharsets.UTF_8);
-
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray questionArray = jsonObject.getJSONArray("question");
-
-            // Parse questions from JSON and match with critical IDs
-            for (int i = 0; i < questionArray.length(); i++) {
-                JSONObject questionObj = questionArray.getJSONObject(i);
-                String id = questionObj.getString("id");
-
-                // Check if the current question ID is in the criticals list
-                if (criticals.contains(id)) {
-                    String questionText = questionObj.getString("question");
-
-                    JSONObject optionsJson = questionObj.getJSONObject("option");
-                    Options options = new Options(
-                            optionsJson.getString("a"),
-                            optionsJson.getString("b"),
-                            optionsJson.getString("c"),
-                            optionsJson.optString("d", null),
-                            optionsJson.optString("e", null)
-                    );
-
-                    String answer = questionObj.getString("answer");
-                    String suggest = questionObj.optString("suggest", "");
-
-                    // Load image if available
-                    JSONObject imageJson = questionObj.optJSONObject("image");
-                    Question.Image image = null;
-                    if (imageJson != null) {
-                        String img1 = imageJson.getString("img1");
-                        image = new Question.Image(img1);
-                    }
-
-                    // Create a new Question object and add it to the list
-                    Question question = new Question(id, questionText, options, answer, suggest, image);
-                    criticalQuestionList.add(question);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return criticalQuestionList;
-    }
-    private List<Question> loadTop50() {
-        List<Question> top50QuestionList = new ArrayList<>();
-        // Chuyển arraystop50 thành List<Integer>
-        List<Integer> arrayStop50List = Arrays.stream(arraystop50).boxed().collect(Collectors.toList());
-
-        try {
-            InputStream is = getAssets().open("driver_data.json");
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-            is.close();
-            String json = new String(buffer, StandardCharsets.UTF_8);
-
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray questionArray = jsonObject.getJSONArray("question");
-
-            // Parse questions from JSON and match with IDs in arrayStop50
-            for (int i = 0; i < questionArray.length(); i++) {
-                JSONObject questionObj = questionArray.getJSONObject(i);
-                String id = questionObj.getString("id");
-
-                // Chuyển ID từ String sang Integer để so sánh
-                int questionId = Integer.parseInt(id);
-
-                // Kiểm tra nếu ID câu hỏi có nằm trong arrayStop50
-                if (arrayStop50List.contains(questionId)) {
-                    String questionText = questionObj.getString("question");
-
-                    JSONObject optionsJson = questionObj.getJSONObject("option");
-                    Options options = new Options(
-                            optionsJson.getString("a"),
-                            optionsJson.getString("b"),
-                            optionsJson.getString("c"),
-                            optionsJson.optString("d", null),
-                            optionsJson.optString("e", null)
-                    );
-
-                    String answer = questionObj.getString("answer");
-                    String suggest = questionObj.optString("suggest", "");
-
-                    // Load image if available
-                    JSONObject imageJson = questionObj.optJSONObject("image");
-                    Question.Image image = null;
-                    if (imageJson != null) {
-                        String img1 = imageJson.getString("img1");
-                        image = new Question.Image(img1);
-                    }
-
-                    // Create a new Question object and add it to the list
-                    Question question = new Question(id, questionText, options, answer, suggest, image);
-                    top50QuestionList.add(question);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return top50QuestionList;
-    }
-
-
-    // Load critical questions from JSON
     private List<String> loadCriticalQuestionsFromJson() {
         List<String> criticalList = new ArrayList<>();
-        try {
-            InputStream is = getAssets().open("driver_data.json");
+        try (InputStream is = getAssets().open("driver_data.json")) {
             byte[] buffer = new byte[is.available()];
             is.read(buffer);
-            is.close();
-            String json = new String(buffer, StandardCharsets.UTF_8);
+            JSONArray criticalArray = new JSONObject(new String(buffer, StandardCharsets.UTF_8)).getJSONArray("critical");
 
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray criticalArray = jsonObject.getJSONArray("critical");
-
-            // Parse critical IDs from JSON
             for (int i = 0; i < criticalArray.length(); i++) {
-                String criticalId = criticalArray.getString(i);
-                criticalList.add(criticalId);
+                criticalList.add(criticalArray.getString(i));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return criticalList;
     }
 
-    // Load questions from JSON file for random selection
-    private List<Question> loadQuestionsFromJson() {
-        List<Question> questionList = new ArrayList<>();
+    private Question parseQuestion(JSONObject questionObj) {
         try {
-            InputStream is = getAssets().open("driver_data.json");
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-            is.close();
-            String json = new String(buffer, StandardCharsets.UTF_8);
+            String id = questionObj.getString("id");
+            String questionText = questionObj.getString("question");
 
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray questionArray = jsonObject.getJSONArray("question");
+            JSONObject optionsJson = questionObj.getJSONObject("option");
+            Options options = new Options(
+                    optionsJson.getString("a"),
+                    optionsJson.getString("b"),
+                    optionsJson.getString("c"),
+                    optionsJson.optString("d", null),
+                    optionsJson.optString("e", null)
+            );
 
-            // Parse questions from JSON
-            for (int i = 0; i < questionArray.length(); i++) {
-                JSONObject questionObj = questionArray.getJSONObject(i);
-                String id = questionObj.getString("id");
-                String questionText = questionObj.getString("question");
+            String answer = questionObj.getString("answer");
+            String suggest = questionObj.optString("suggest", "");
 
-                JSONObject optionsJson = questionObj.getJSONObject("option");
-                Options options = new Options(
-                        optionsJson.getString("a"),
-                        optionsJson.getString("b"),
-                        optionsJson.getString("c"),
-                        optionsJson.optString("d", null),
-                        optionsJson.optString("e", null)
-                );
-
-                String answer = questionObj.getString("answer");
-                String suggest = questionObj.optString("suggest", "");
-
-                // Load image if available
-                JSONObject imageJson = questionObj.optJSONObject("image");
-                Question.Image image = null;
-                if (imageJson != null) {
-                    String img1 = imageJson.getString("img1");
-                    image = new Question.Image(img1);
-                }
-
-                Question question = new Question(id, questionText, options, answer, suggest, image);
-                questionList.add(question);
+            JSONObject imageJson = questionObj.optJSONObject("image");
+            Question.Image image = null;
+            if (imageJson != null) {
+                image = new Question.Image(imageJson.getString("img1"));
             }
 
-            // Shuffle questions and limit to 35
-            java.util.Collections.shuffle(questionList);
-            int numberOfQuestionsToTake = Math.min(35, questionList.size());
-            questionList = questionList.subList(0, numberOfQuestionsToTake);
-
+            return new Question(id, questionText, options, answer, suggest, image);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return questionList;
     }
-
-    // Load questions based on specific array for non-random selection
     private List<Question> loadQuestionsFromArray(int[] questionIds) {
         List<Question> questionList = new ArrayList<>();
-        try {
-            InputStream is = getAssets().open("driver_data.json");
+        Set<String> questionIdSet = Arrays.stream(questionIds)
+                .mapToObj(String::valueOf)
+                .collect(Collectors.toSet());
+
+        try (InputStream is = getAssets().open("driver_data.json")) {
             byte[] buffer = new byte[is.available()];
             is.read(buffer);
-            is.close();
             String json = new String(buffer, StandardCharsets.UTF_8);
+            JSONArray questionArray = new JSONObject(json).getJSONArray("question");
 
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray questionArray = jsonObject.getJSONArray("question");
-
-            // Parse questions from JSON and match with questionIds
             for (int i = 0; i < questionArray.length(); i++) {
                 JSONObject questionObj = questionArray.getJSONObject(i);
                 String id = questionObj.getString("id");
 
-                // Only add questions that match the given array of IDs
-                for (int questionId : questionIds) {
-                    if (id.equals(String.valueOf(questionId))) {
-                        String questionText = questionObj.getString("question");
+                if (questionIdSet.contains(id)) {
+                    String questionText = questionObj.getString("question");
+                    JSONObject optionsJson = questionObj.getJSONObject("option");
 
-                        JSONObject optionsJson = questionObj.getJSONObject("option");
-                        Options options = new Options(
-                                optionsJson.getString("a"),
-                                optionsJson.getString("b"),
-                                optionsJson.getString("c"),
-                                optionsJson.optString("d", null),
-                                optionsJson.optString("e", null)
-                        );
+                    Options options = new Options(
+                            optionsJson.getString("a"),
+                            optionsJson.getString("b"),
+                            optionsJson.getString("c"),
+                            optionsJson.optString("d", null),
+                            optionsJson.optString("e", null)
+                    );
 
-                        String answer = questionObj.getString("answer");
-                        String suggest = questionObj.optString("suggest", "");
+                    String answer = questionObj.getString("answer");
+                    String suggest = questionObj.optString("suggest", "");
+                    JSONObject imageJson = questionObj.optJSONObject("image");
+                    Question.Image image = imageJson != null ? new Question.Image(imageJson.getString("img1")) : null;
 
-                        // Load image if available
-                        JSONObject imageJson = questionObj.optJSONObject("image");
-                        Question.Image image = null;
-                        if (imageJson != null) {
-                            String img1 = imageJson.getString("img1");
-                            image = new Question.Image(img1);
-                        }
-
-                        Question question = new Question(id, questionText, options, answer, suggest, image);
-                        questionList.add(question);
-                        break;
-                    }
+                    questionList.add(new Question(id, questionText, options, answer, suggest, image));
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return questionList;
     }
+
 }

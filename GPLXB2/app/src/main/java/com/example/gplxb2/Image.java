@@ -4,7 +4,6 @@ public class Image {
     private String img1;
 
     public Image() {
-        // Constructor rỗng
     }
 
     public Image(String img1) {
