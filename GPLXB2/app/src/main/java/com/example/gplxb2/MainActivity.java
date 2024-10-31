@@ -90,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        ImageButton btnnoad = findViewById(R.id.btnnoad);
+        btnnoad.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, NoadActivity.class);
+            startActivity(intent);
+        });
+
         Button btnDeleteData = findViewById(R.id.btnDeleteData);
         btnDeleteData.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
