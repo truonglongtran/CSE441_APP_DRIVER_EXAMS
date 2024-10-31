@@ -27,27 +27,31 @@
         <RadioButton
             android:id="@+id/option_a"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" /> <!-- Margin dưới cho RadioButton A -->
 
         <RadioButton
             android:id="@+id/option_b"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" /> <!-- Margin dưới cho RadioButton B -->
 
         <RadioButton
             android:id="@+id/option_c"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" /> <!-- Margin dưới cho RadioButton C -->
 
         <RadioButton
             android:id="@+id/option_d"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" /> <!-- Margin dưới cho RadioButton D -->
 
         <RadioButton
             android:id="@+id/option_e"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" /> <!-- Không thêm margin cho RadioButton E -->
     </RadioGroup>
 
 </LinearLayout>
