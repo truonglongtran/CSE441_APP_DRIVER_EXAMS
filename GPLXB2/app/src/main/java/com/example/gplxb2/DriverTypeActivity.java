@@ -21,7 +21,7 @@ public class DriverTypeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DriverTypeAdapter adapter;
     private List<DriverType> driverTypeList;
-    private ImageButton backButton; // Nút Back
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class DriverTypeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_driver_type);
 
         recyclerView = findViewById(R.id.recyclerView);
-        backButton = findViewById(R.id.back_button); // Tham chiếu đến nút Back
+        backButton = findViewById(R.id.back_button);
         driverTypeList = new ArrayList<>();
 
         loadDriverTypes();
@@ -38,7 +38,6 @@ public class DriverTypeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        // Thiết lập sự kiện cho nút Back
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

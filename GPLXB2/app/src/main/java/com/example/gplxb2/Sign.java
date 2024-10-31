@@ -4,22 +4,20 @@ public class Sign {
     private String name;
     private String des;
     private String imagePath;
-    private int titleIndex; // Thêm thuộc tính titleIndex
+    private int titleIndex;
 
-    // Constructor cho các loại đối tượng khác nhau
     public Sign(String name, String des, String imagePath) {
         this.name = name;
         this.des = des;
         this.imagePath = imagePath;
-        this.titleIndex = -1; // Giá trị mặc định nếu không phải là tiêu đề
+        this.titleIndex = -1;
     }
 
-    // Constructor cho tiêu đề
     public Sign(String name, String des, String imagePath, int titleIndex) {
         this.name = name;
         this.des = des;
         this.imagePath = imagePath;
-        this.titleIndex = titleIndex; // Gán chỉ số tiêu đề
+        this.titleIndex = titleIndex;
     }
 
     public String getName() {
@@ -31,10 +29,10 @@ public class Sign {
     }
 
     public String getImagePath() {
-        return (imagePath != null && !imagePath.isEmpty()) ? imagePath : "bienbao.png"; // Hình ảnh mặc định
+        return (imagePath != null && !imagePath.isEmpty()) ? imagePath : "bienbao.png";
     }
 
     public int getTitleIndex() {
-        return titleIndex; // Thêm phương thức getter cho titleIndex
+        return titleIndex;
     }
 }

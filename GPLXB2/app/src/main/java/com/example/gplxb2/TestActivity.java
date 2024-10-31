@@ -30,7 +30,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class TestActivity extends AppCompatActivity {
-
     private TextView timerTextView, questionCounterTextView;
     private Button submitButton;
     private ImageButton nextButton, backButton;
@@ -38,19 +37,14 @@ public class TestActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private int currentPosition = 0;
     private int totalQuestions = 0;
-    private List<Question> questions; // List of questions
-    private List<String> criticals; // List of critical questions
-    private QuestionAdapter adapter; // Adapter for RecyclerView
+    private List<Question> questions;
+    private List<String> criticals;
+    private QuestionAdapter adapter;
     private ArrayList<Integer> incorrectAnswers;
     private DatabaseHelper databaseHelper;
-    private String title = ""; // Biến để lưu tiêu đề
+    private String title = "";
     private boolean isLeavingActivity = false;
-
-
-    // Exam index
-    private int examIndex = -1; // Mặc định -1 để random
-
-    // Array to hold predefined question sets for different exams
+    private int examIndex = -1;
     int[][] arrays = {
                         {10031, 10089, 10114, 10121, 10134, 10151, 10158, 10160, 10163, 10186, 10193, 10254, 10258, 10260, 10294, 10342, 10343, 10348, 10366, 10393, 10415, 10423, 10466, 10479, 10482, 10489, 10498, 10508, 10516, 10521, 10528, 10532, 10541, 10542, 10558},
                         {10001, 10002, 10061, 10065, 10128, 10144, 10150, 10154, 10156, 10189, 10208, 10210, 10223, 10242, 10271, 10308, 10324, 10326, 10343, 10350, 10361, 10375, 10378, 10400, 10429, 10503, 10504, 10517, 10522, 10544, 10553, 10563, 10567, 10592, 10593},
@@ -205,19 +199,18 @@ public class TestActivity extends AppCompatActivity {
                 }.start();
             }, 2000);
         } else {
-            // Hiển thị title nếu examIndex >= 40, không có bộ đếm thời gian
             timerTextView.setText(title);
         }
     }
 
-    private boolean isSubmitted = false; // Cờ để kiểm tra nếu đã gọi submitAnswers
+    private boolean isSubmitted = false;
 
     @Override
     protected void onPause() {
         super.onPause();
         if (isLeavingActivity && !isSubmitted) {
-            submitAnswers(title); // Nộp bài khi người dùng rời Activity
-            isSubmitted = true; // Đánh dấu rằng đã nộp bài
+            submitAnswers(title);
+            isSubmitted = true;
         }
     }
 
@@ -225,17 +218,17 @@ public class TestActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (isLeavingActivity && !isSubmitted) {
-            submitAnswers(title); // Nộp bài khi Activity ngừng hoạt động hoàn toàn
-            isSubmitted = true; // Đánh dấu rằng đã nộp bài
+            submitAnswers(title);
+            isSubmitted = true;
         }
-        isLeavingActivity = false; // Reset lại cờ khi quay trở lại Activity
+        isLeavingActivity = false;
     }
 
     @Override
     public void onBackPressed() {
         if (!isSubmitted) {
-            submitAnswers(title); // Nộp bài khi người dùng nhấn nút Back
-            isSubmitted = true; // Đánh dấu rằng đã nộp bài
+            submitAnswers(title);
+            isSubmitted = true;
         }
         super.onBackPressed();
     }
@@ -243,10 +236,9 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        isLeavingActivity = true; // Đặt cờ khi Activity chuyển vào nền
+        isLeavingActivity = true;
     }
 
-    //hộp thoại xác nhận trước khi nộp bài
     private void showConfirmationDialog(final String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Xác nhận nộp bài");
@@ -255,23 +247,18 @@ public class TestActivity extends AppCompatActivity {
         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Gọi hàm submitAnswers khi người dùng xác nhận
                 submitAnswers(title);
             }
         });
-
         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss(); // Đóng hộp thoại nếu người dùng chọn không
+                dialog.dismiss();
             }
         });
-
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
     private void submitAnswers(String title) {
         int score = 0, incorrectCriticalCount = 0;
         Map<String, String> selectedAnswers = adapter.getSelectedAnswers();
@@ -298,10 +285,8 @@ public class TestActivity extends AppCompatActivity {
                 score++;
             }
         }
-
         Collections.sort(incorrectAnswers);
         Log.d("TestActivity", "Các câu trả lời sai: " + incorrectAnswers);
-
         Intent intent = new Intent(TestActivity.this, ResultActivity.class);
         intent.putExtra("TITLE", title);
         intent.putExtra("SCORE", score);

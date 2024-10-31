@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat;
 
 public class ExamsActivity extends AppCompatActivity {
 
-    private DatabaseHelper databaseHelper; // Declare DatabaseHelper
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class ExamsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_exams);
 
-        databaseHelper = new DatabaseHelper(this); // Initialize DatabaseHelper
+        databaseHelper = new DatabaseHelper(this);
 
         ImageButton backButton = findViewById(R.id.back_button);
 
@@ -37,7 +37,7 @@ public class ExamsActivity extends AppCompatActivity {
         GridLayout buttonGrid = findViewById(R.id.button_grid);
 
         for (int i = 0; i < buttonGrid.getChildCount(); i++) {
-            final int examIndex = i; // Store button index
+            final int examIndex = i;
             View child = buttonGrid.getChildAt(i);
             if (child instanceof Button) {
                 Button examButton = (Button) child;
@@ -64,7 +64,7 @@ public class ExamsActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         // Navigate to TestActivity and pass the exam index
                         Intent intent = new Intent(ExamsActivity.this, TestActivity.class);
-                        intent.putExtra("examsIndex", examIndex); // Pass examsIndex to TestActivity
+                        intent.putExtra("examsIndex", examIndex);
                         startActivity(intent);
                     }
                 });

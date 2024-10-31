@@ -38,11 +38,11 @@ public class SignDetailActivity extends AppCompatActivity {
         findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); 
+                finish();
             }
         });
 
         TextView toolbarTitle = findViewById(R.id.txt_detail_sign);
-        toolbarTitle.setText(name); // Cập nhật tên biển báo vào TextView
+        toolbarTitle.setText(name);
     }
 }

@@ -16,67 +16,59 @@ public class ResultActivity extends AppCompatActivity {
     private TextView resultMessage;
     private Button backButton;
     private Toolbar toolbar;
-    private TextView toolbarTitle; // TextView cho tiêu đề trên toolbar
-    private DatabaseHelper databaseHelper; // Thêm biến cho DatabaseHelper
+    private TextView toolbarTitle;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        // Initialize views
         toolbar = findViewById(R.id.toolbar);
-        toolbarTitle = findViewById(R.id.toolbar_title); // Khởi tạo TextView tiêu đề
+        toolbarTitle = findViewById(R.id.toolbar_title);
         resultText = findViewById(R.id.result_text);
         totalQuestionsText = findViewById(R.id.total_questions_text);
         resultMessage = findViewById(R.id.result_message);
         backButton = findViewById(R.id.back_btn);
 
-        // Initialize DatabaseHelper
         databaseHelper = new DatabaseHelper(this);
 
-        // Receive data from Intent
         Intent intent = getIntent();
         int score = intent.getIntExtra("SCORE", 0);
         int totalQuestions = intent.getIntExtra("TOTAL_QUESTIONS", 0);
         int incorrectCriticalCount = intent.getIntExtra("INCORRECT_CRITICAL_COUNT", 0);
         int examIndex = getIntent().getIntExtra("EXAMS_INDEX", -1);
-        String examType = intent.getStringExtra("EXAM_TYPE"); // Nhận loại bộ đề
-        String examTitle = intent.getStringExtra("TITLE"); // Nhận tiêu đề bộ đề
+        String examType = intent.getStringExtra("EXAM_TYPE");
+        String examTitle = intent.getStringExtra("TITLE");
 
-        // Set toolbar title
         if (examTitle != null) {
-            toolbarTitle.setText(examTitle); // Thiết lập tiêu đề lên toolbar
+            toolbarTitle.setText(examTitle);
         } else {
-            toolbarTitle.setText("Kết quả thi"); // Tiêu đề mặc định nếu không có
+            toolbarTitle.setText("Kết quả thi");
         }
 
-        // Display the score and total questions
         resultText.setText("Your Score: " + score);
         totalQuestionsText.setText("Total Questions: " + totalQuestions);
 
-        // Determine the result message and update the database status
         if (incorrectCriticalCount > 0) {
             resultMessage.setText("Bạn đã thi trượt vì làm sai câu điểm liệt");
             resultMessage.setTextColor(Color.RED);
-            databaseHelper.insertOrUpdateExamResult(examIndex, -1); // Update status to -1 (fail)
+            databaseHelper.insertOrUpdateExamResult(examIndex, -1);
         } else if (score < 32) {
             resultMessage.setText("Bạn đã thi trượt do không đủ số câu đúng tối thiểu");
             resultMessage.setTextColor(Color.RED);
-            databaseHelper.insertOrUpdateExamResult(examIndex, -1); // Update status to -1 (fail)
+            databaseHelper.insertOrUpdateExamResult(examIndex, -1);
         } else {
             resultMessage.setText("Chúc mừng bạn đã thi đạt");
             resultMessage.setTextColor(Color.GREEN);
-            databaseHelper.insertOrUpdateExamResult(examIndex, 1); // Update status to 1 (pass)
+            databaseHelper.insertOrUpdateExamResult(examIndex, 1);
         }
 
-        // Set up the back button event
         backButton.setText("Quay về trang chủ");
-        backButton.setBackgroundColor(Color.parseColor("#329BF1")); // Đặt màu cho nút
+        backButton.setBackgroundColor(Color.parseColor("#329BF1"));
         backButton.setOnClickListener(v -> goToMain());
     }
 
-    // Method to return to the main page
     public void goToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

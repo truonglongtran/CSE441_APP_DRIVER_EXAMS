@@ -19,7 +19,7 @@ import java.util.List;
 public class SignAdapter extends RecyclerView.Adapter<SignAdapter.SignViewHolder> {
     private Context context;
     private List<Sign> signList;
-    private int titleCount = 0; // Biến đếm để theo dõi số tiêu đề đã gặp
+    private int titleCount = 0;
 
     public SignAdapter(Context context, List<Sign> signList) {
         this.context = context;
@@ -36,48 +36,39 @@ public class SignAdapter extends RecyclerView.Adapter<SignAdapter.SignViewHolder
     @Override
     public void onBindViewHolder(@NonNull SignViewHolder holder, int position) {
         Sign sign = signList.get(position);
-
-        // Kiểm tra nếu đây là tiêu đề (không có mô tả và ảnh)
         boolean isTitle = (sign.getDes() == null || sign.getDes().isEmpty()) &&
                 (sign.getImagePath() == null || sign.getImagePath().equals("bienbao.png"));
 
         if (isTitle) {
-            // Tăng biến đếm số tiêu đề lên
             titleCount++;
-
-            // Cấu hình cho tiêu đề
             holder.nameTextView.setText(sign.getName());
-            holder.nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25); // Kích thước chữ là 25
-            holder.nameTextView.setTypeface(null, Typeface.BOLD); // Đặt chữ in đậm
-            holder.nameTextView.setTextColor(Color.BLACK); // Màu chữ đen
+            holder.nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+            holder.nameTextView.setTypeface(null, Typeface.BOLD);
+            holder.nameTextView.setTextColor(Color.BLACK);
 
-            // Đặt màu nền dựa trên chỉ số tiêu đề
             int titleIndex = sign.getTitleIndex();
             switch (titleIndex) {
                 case 0:
-                    holder.itemView.setBackgroundColor(Color.RED); // Nền màu đỏ cho tiêu đề đầu tiên
+                    holder.itemView.setBackgroundColor(Color.RED);
                     break;
                 case 1:
-                    holder.itemView.setBackgroundColor(Color.YELLOW); // Nền màu vàng cho tiêu đề thứ hai
+                    holder.itemView.setBackgroundColor(Color.YELLOW);
                     break;
                 default:
-                    holder.itemView.setBackgroundColor(Color.TRANSPARENT); // Nền trong suốt cho các tiêu đề khác
+                    holder.itemView.setBackgroundColor(Color.TRANSPARENT);
                     break;
             }
 
-            // Căn giữa theo chiều dọc và chiều ngang
             holder.nameTextView.setGravity(Gravity.CENTER);
 
-            // Đảm bảo ẩn mô tả và hình ảnh
             holder.descriptionTextView.setVisibility(View.GONE);
             holder.imageView.setVisibility(View.GONE);
         } else {
             // Cấu hình cho phần tử thông thường
             holder.nameTextView.setText(sign.getName());
-            holder.nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16); // Kích thước chữ bình thường
-            holder.nameTextView.setTypeface(null, Typeface.BOLD); // Đặt chữ in đậm
+            holder.nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            holder.nameTextView.setTypeface(null, Typeface.BOLD);
 
-            // Hiển thị hoặc ẩn mô tả
             if (sign.getDes() == null || sign.getDes().isEmpty()) {
                 holder.descriptionTextView.setVisibility(View.GONE);
             } else {
@@ -85,15 +76,13 @@ public class SignAdapter extends RecyclerView.Adapter<SignAdapter.SignViewHolder
                 holder.descriptionTextView.setVisibility(View.VISIBLE);
             }
 
-            // Hiển thị hoặc ẩn hình ảnh
             if (sign.getImagePath() != null && !sign.getImagePath().equals("bienbao.png")) {
                 holder.imageView.setVisibility(View.VISIBLE);
-                holder.itemView.setBackgroundColor(Color.TRANSPARENT); // Đặt nền trong suốt cho phần tử thông thường
-                // Sử dụng Glide để tải hình ảnh
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
                 Glide.with(context)
                         .load(sign.getImagePath())
-                        .placeholder(R.drawable.bienbao) // Hình ảnh mặc định khi đang tải
-                        .error(R.drawable.bienbao) // Hình ảnh khi có lỗi tải
+                        .placeholder(R.drawable.bienbao)
+                        .error(R.drawable.bienbao)
                         .into(holder.imageView);
             } else {
                 holder.imageView.setVisibility(View.GONE);
@@ -103,7 +92,6 @@ public class SignAdapter extends RecyclerView.Adapter<SignAdapter.SignViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Khởi tạo Intent để chuyển đến SignDetailActivity
                 Intent intent = new Intent(context, SignDetailActivity.class);
                 intent.putExtra("name", sign.getName());
                 intent.putExtra("description", sign.getDes());

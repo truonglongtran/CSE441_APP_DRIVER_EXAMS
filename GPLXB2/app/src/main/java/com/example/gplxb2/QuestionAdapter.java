@@ -19,14 +19,14 @@ import java.util.List;
 import java.util.Map;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
-    private final List<Question> questions; // Danh sách câu hỏi
-    private final Map<String, String> selectedAnswers = new HashMap<>(); // Lưu trữ câu trả lời đã chọn
+    private final List<Question> questions;
+    private final Map<String, String> selectedAnswers = new HashMap<>();
     private final List<String> criticals;
 
     // Constructor
     public QuestionAdapter(List<Question> questions, List<String> criticals) {
         this.questions = questions;
-        this.criticals = criticals; // Gán giá trị cho criticals
+        this.criticals = criticals;
     }
 
     @NonNull
@@ -40,12 +40,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position) {
         Question question = questions.get(position);
 
-        // Log thông tin câu hỏi và vị trí
         Log.d("QuestionAdapter", "Hiển thị câu hỏi tại vị trí: " + position + ", ID câu hỏi: " + question.getId());
         String title = "Câu " + (position + 1) + ": " + question.getQuestionText();
         holder.questionTextView.setText(title);
 
-        // Load the image if it exists
         String img1Url = question.getImage().getImg1();
         if (img1Url != null && !img1Url.isEmpty()) {
             holder.questionImageView.setVisibility(View.VISIBLE);
@@ -89,22 +87,18 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             holder.optionEButton.setVisibility(View.VISIBLE);
         }
 
-        // Lắng nghe sự thay đổi của RadioGroup
         holder.answerGroup.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton selectedButton = holder.itemView.findViewById(checkedId);
             if (selectedButton != null) {
-                String selectedAnswerText = selectedButton.getText().toString(); // Text của đáp án được chọn
-                String selectedKey = getSelectedKey(selectedAnswerText, holder); // Lấy khóa đáp án được chọn
+                String selectedAnswerText = selectedButton.getText().toString();
+                String selectedKey = getSelectedKey(selectedAnswerText, holder);
 
-                // Lưu lựa chọn của người dùng
                 selectedAnswers.put(question.getId(), selectedKey);
 
-                // Log đáp án đã chọn
                 Log.d("QuestionAdapter", "Câu hỏi ID: " + question.getId() + ", Khóa đáp án được chọn: " + selectedKey);
             }
         });
 
-        // Xóa lựa chọn nếu chưa có lựa chọn
         holder.answerGroup.clearCheck();
     }
 
@@ -120,7 +114,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         } else if (selectedAnswerText.equals(holder.optionEButton.getText().toString())) {
             return "e";
         }
-        return ""; // Trả về chuỗi rỗng nếu không tìm thấy khóa
+        return "";
     }
 
     @Override
@@ -128,7 +122,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         return questions.size();
     }
 
-    // Lấy các đáp án đã chọn
     public Map<String, String> getSelectedAnswers() {
         return selectedAnswers;
     }
@@ -142,7 +135,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         RadioButton optionCButton;
         RadioButton optionDButton;
         RadioButton optionEButton;
-
         public QuestionViewHolder(View itemView) {
             super(itemView);
             questionTextView = itemView.findViewById(R.id.question_text);

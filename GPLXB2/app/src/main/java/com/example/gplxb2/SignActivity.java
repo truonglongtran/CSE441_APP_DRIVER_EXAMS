@@ -35,12 +35,11 @@ public class SignActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        // Thiết lập sự kiện cho nút "Quay lại"
         ImageButton backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // Kết thúc activity hiện tại
+                finish();
             }
         });
     }
@@ -54,15 +53,14 @@ public class SignActivity extends AppCompatActivity {
             String json = new String(buffer, StandardCharsets.UTF_8);
 
             JSONObject jsonObject = new JSONObject(json);
-            JSONArray names = jsonObject.names(); // Lấy danh sách các khóa
+            JSONArray names = jsonObject.names();
 
             if (names != null) {
                 for (int i = 0; i < names.length(); i++) {
-                    String key = names.getString(i); // Lấy khóa
+                    String key = names.getString(i);
                     JSONArray signArray = jsonObject.getJSONArray(key);
 
-                    // Thêm một tiêu đề cho mỗi mảng
-                    signList.add(new Sign(key, "", "", i)); // Sử dụng tên mảng làm tiêu đề và truyền chỉ số
+                    signList.add(new Sign(key, "", "", i));
 
                     for (int j = 0; j < signArray.length(); j++) {
                         JSONObject signObject = signArray.getJSONObject(j);
@@ -73,7 +71,7 @@ public class SignActivity extends AppCompatActivity {
                         if (signObject.has("image") && !signObject.isNull("image")) {
                             imagePath = signObject.getString("image");
                         } else {
-                            imagePath = "bienbao.png"; // Hình ảnh mặc định
+                            imagePath = "bienbao.png";
                         }
 
                         Sign sign = new Sign(name, des, imagePath);
