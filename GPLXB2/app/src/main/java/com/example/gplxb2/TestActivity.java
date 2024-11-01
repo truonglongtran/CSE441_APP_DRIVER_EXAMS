@@ -177,55 +177,63 @@ public class TestActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> showConfirmationDialog(title));
     }
 
+    // Update the current question counter
     private void updateQuestionCounter() {
         questionCounterTextView.setText((currentPosition + 1) + "/" + totalQuestions);
     }
 
+    // Start the countdown timer for the exam
     private void startTimer() {
-        if (examIndex < 40) {
-            new Handler().postDelayed(() -> {
-                countDownTimer = new CountDownTimer(22 * 60 * 1000, 1000) { // 22 minutes
+        if (examIndex < 40) { // Check if exam index is less than 40
+            new Handler().postDelayed(() -> { // Wait for 2 seconds before starting countdown
+                countDownTimer = new CountDownTimer(22 * 60 * 1000, 1000) { // 22 minutes countdown
                     @Override
                     public void onTick(long millisUntilFinished) {
+                        // Update the remaining time in minutes and seconds
                         long minutes = millisUntilFinished / 60000;
                         long seconds = (millisUntilFinished % 60000) / 1000;
                         String timeLeft = String.format("%02d:%02d", minutes, seconds);
-                        timerTextView.setText("Time: " + timeLeft);
+                        timerTextView.setText("Time: " + timeLeft); // Display the time on screen
                     }
+
                     @Override
                     public void onFinish() {
-                        submitAnswers(title);
+                        submitAnswers(title); // Auto-submit answers when time is up
                     }
                 }.start();
             }, 2000);
         } else {
-            timerTextView.setText(title);
+            timerTextView.setText(title); // If no countdown is needed, just show the title
         }
     }
 
+    // Flag to mark if answers have been submitted
     private boolean isSubmitted = false;
 
     @Override
     protected void onPause() {
         super.onPause();
+        // If user leaves the activity without submitting, auto-submit answers
         if (isLeavingActivity && !isSubmitted) {
             submitAnswers(title);
-            isSubmitted = true;
+            isSubmitted = true; // Mark answers as submitted
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        // Check if activity is being left and auto-submit if not already submitted
         if (isLeavingActivity && !isSubmitted) {
             submitAnswers(title);
             isSubmitted = true;
         }
-        isLeavingActivity = false;
+        isLeavingActivity = false; // Reset the leaving activity flag
     }
 
     @Override
     public void onBackPressed() {
+        // If not submitted when back button is pressed, submit answers and mark as submitted
         if (!isSubmitted) {
             submitAnswers(title);
             isSubmitted = true;
@@ -236,71 +244,83 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
+        // Set the flag indicating the user is likely leaving the activity
         isLeavingActivity = true;
     }
 
+    // Display a confirmation dialog for submitting answers
     private void showConfirmationDialog(final String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Xác nhận nộp bài");
-        builder.setMessage("Bạn có chắc chắn muốn nộp bài?");
+        builder.setTitle("Confirm Submission"); // Dialog title
+        builder.setMessage("Are you sure you want to submit?"); // Dialog message
 
-        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                submitAnswers(title);
+                submitAnswers(title); // Submit answers if user selects "Yes"
             }
         });
-        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                dialog.dismiss(); // Close the dialog if user selects "No"
             }
         });
+
         AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.show(); // Show the confirmation dialog
     }
+
+    // Submit answers and calculate score
     private void submitAnswers(String title) {
         int score = 0, incorrectCriticalCount = 0;
-        Map<String, String> selectedAnswers = adapter.getSelectedAnswers();
-        ArrayList<Integer> incorrectAnswersFromDB = databaseHelper.getIncorrectAnswers();
+        Map<String, String> selectedAnswers = adapter.getSelectedAnswers(); // Get user-selected answers
+        ArrayList<Integer> incorrectAnswersFromDB = databaseHelper.getIncorrectAnswers(); // Fetch previously incorrect answers
 
         for (Question question : questions) {
-            String userAnswer = selectedAnswers.get(question.getId());
+            String userAnswer = selectedAnswers.get(question.getId()); // Get user's answer to the current question
             Integer questionId = Integer.parseInt(question.getId());
 
+            // Check if the answer to a critical question is incorrect and increment count
             if (criticals.contains(question.getId()) && (userAnswer == null || !userAnswer.equals(question.getAnswer()))) {
                 incorrectCriticalCount++;
             }
 
+            // Handle incorrect answers
             if (userAnswer == null || !userAnswer.equals(question.getAnswer())) {
+                // Add to incorrect answers if not already marked
                 if (!incorrectAnswers.contains(questionId)) {
                     incorrectAnswers.add(questionId);
                     databaseHelper.insertIncorrectAnswer(questionId);
                 }
-            } else {
+            } else { // Handle correct answers
                 if (incorrectAnswers.contains(questionId)) {
-                    incorrectAnswers.remove(questionId);
+                    incorrectAnswers.remove(questionId); // Remove from incorrect answers if now correct
                     databaseHelper.deleteCorrectAnswer(questionId);
                 }
-                score++;
+                score++; // Increment score for correct answer
             }
         }
-        Collections.sort(incorrectAnswers);
-        Log.d("TestActivity", "Các câu trả lời sai: " + incorrectAnswers);
+
+        Collections.sort(incorrectAnswers); // Sort incorrect answers list
+        Log.d("TestActivity", "Incorrect answers: " + incorrectAnswers); // Log incorrect answers for debugging
+
+        // Pass data to the ResultActivity
         Intent intent = new Intent(TestActivity.this, ResultActivity.class);
         intent.putExtra("TITLE", title);
         intent.putExtra("SCORE", score);
         intent.putExtra("TOTAL_QUESTIONS", questions.size());
         intent.putExtra("INCORRECT_CRITICAL_COUNT", incorrectCriticalCount);
         intent.putExtra("EXAMS_INDEX", examIndex);
-        startActivity(intent);
-        finish();
+        startActivity(intent); // Start ResultActivity
+        finish(); // Close current activity
     }
 
+    // Load questions by exam index based on specific categories
     private List<Question> loadQuestionsByExamIndex(int examIndex) {
         int[] questionIds;
         switch (examIndex) {
-            case 2002: questionIds = khainiemQuytac; break;
+            case 2002: questionIds = khainiemQuytac; break; // Example index mapping to question array
             case 2003: questionIds = nghiepvuVantai; break;
             case 2004: questionIds = vanhoaGiaothong; break;
             case 2005: questionIds = kithuatLaixe; break;
@@ -309,77 +329,90 @@ public class TestActivity extends AppCompatActivity {
             case 2008: questionIds = sahinh; break;
             default: return new ArrayList<>();
         }
-        return filterQuestionsByIds(questionIds);
+        return filterQuestionsByIds(questionIds); // Filter questions based on IDs
     }
 
-
+    // Load incorrect questions only
     private List<Question> loadIncorrectQuestions() {
         return filterQuestionsByIds(incorrectAnswers.stream().mapToInt(i -> i).toArray());
     }
 
+    // Load critical questions only
     private List<Question> loadCriticalQuestions() {
-        List<String> criticalIds = loadCriticalQuestionsFromJson();
+        List<String> criticalIds = loadCriticalQuestionsFromJson(); // Fetch critical question IDs
         return filterQuestions(question -> criticalIds.contains(question.getId()));
     }
 
+    // Load top 50 questions from array
     private List<Question> loadTop50() {
         return filterQuestionsByIds(Arrays.stream(arraystop50).boxed().mapToInt(i -> i).toArray());
     }
 
+    // Load random questions from JSON file
     private List<Question> loadQuestionsFromJson() {
-        List<Question> questionList = loadQuestionsFromFile();
-        Collections.shuffle(questionList);
-        return questionList.subList(0, Math.min(35, questionList.size()));
+        List<Question> questionList = loadQuestionsFromFile(); // Load full list from JSON
+        Collections.shuffle(questionList); // Shuffle list for randomness
+        return questionList.subList(0, Math.min(35, questionList.size())); // Select up to 35 questions
     }
 
+    // Filter questions by specific IDs
     private List<Question> filterQuestionsByIds(int[] questionIds) {
         List<Integer> idList = Arrays.stream(questionIds).boxed().collect(Collectors.toList());
         return filterQuestions(question -> idList.contains(Integer.parseInt(question.getId())));
     }
 
+    // General filter function for questions
     private List<Question> filterQuestions(Predicate<Question> filter) {
         return loadQuestionsFromFile().stream().filter(filter).collect(Collectors.toList());
     }
 
+    // Load questions from JSON file in assets
     private List<Question> loadQuestionsFromFile() {
         List<Question> questionList = new ArrayList<>();
-        try (InputStream is = getAssets().open("driver_data.json")) {
+        try (InputStream is = getAssets().open("driver_data.json")) { // Access JSON file
             byte[] buffer = new byte[is.available()];
-            is.read(buffer);
+            is.read(buffer); // Read file into buffer
             String json = new String(buffer, StandardCharsets.UTF_8);
             JSONArray questionArray = new JSONObject(json).getJSONArray("question");
 
+            // Parse each question JSON object
             for (int i = 0; i < questionArray.length(); i++) {
                 Question question = parseQuestion(questionArray.getJSONObject(i));
                 if (question != null) questionList.add(question);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Log error if file read fails
         }
         return questionList;
     }
 
+    // Load list of critical question IDs from JSON
     private List<String> loadCriticalQuestionsFromJson() {
         List<String> criticalList = new ArrayList<>();
-        try (InputStream is = getAssets().open("driver_data.json")) {
+        try (InputStream is = getAssets().open("driver_data.json")) { // Access JSON file
             byte[] buffer = new byte[is.available()];
-            is.read(buffer);
+            is.read(buffer); // Read file into buffer
             JSONArray criticalArray = new JSONObject(new String(buffer, StandardCharsets.UTF_8)).getJSONArray("critical");
 
+            // Add each critical question ID to the list
             for (int i = 0; i < criticalArray.length(); i++) {
                 criticalList.add(criticalArray.getString(i));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Log error if file read fails
         }
         return criticalList;
     }
 
+
     private Question parseQuestion(JSONObject questionObj) {
         try {
+            // Extracts the question ID
             String id = questionObj.getString("id");
+            // Retrieves the question text
             String questionText = questionObj.getString("question");
 
+            // Retrieves options as a JSON object and creates an Options instance
             JSONObject optionsJson = questionObj.getJSONObject("option");
             Options options = new Options(
                     optionsJson.getString("a"),
@@ -389,38 +422,50 @@ public class TestActivity extends AppCompatActivity {
                     optionsJson.optString("e", null)
             );
 
+            // Extracts the correct answer for the question
             String answer = questionObj.getString("answer");
+            // Optionally retrieves a hint or suggestion, defaults to an empty string if not available
             String suggest = questionObj.optString("suggest", "");
 
+            // Attempts to retrieve an image if available
             JSONObject imageJson = questionObj.optJSONObject("image");
             Question.Image image = null;
             if (imageJson != null) {
+                // Creates a new Image instance if the image JSON object is not null
                 image = new Question.Image(imageJson.getString("img1"));
             }
 
+            // Constructs and returns a new Question object
             return new Question(id, questionText, options, answer, suggest, image);
         } catch (Exception e) {
+            // Logs an exception if an error occurs during parsing and returns null
             e.printStackTrace();
             return null;
         }
     }
+
     private List<Question> loadQuestionsFromArray(int[] questionIds) {
         List<Question> questionList = new ArrayList<>();
+        // Converts the array of question IDs to a Set of Strings for easy lookup
         Set<String> questionIdSet = Arrays.stream(questionIds)
                 .mapToObj(String::valueOf)
                 .collect(Collectors.toSet());
 
+        // Reads questions from JSON and filters based on question IDs provided in the array
         try (InputStream is = getAssets().open("driver_data.json")) {
             byte[] buffer = new byte[is.available()];
             is.read(buffer);
             String json = new String(buffer, StandardCharsets.UTF_8);
             JSONArray questionArray = new JSONObject(json).getJSONArray("question");
 
+            // Iterates over the questions in the JSON array
             for (int i = 0; i < questionArray.length(); i++) {
                 JSONObject questionObj = questionArray.getJSONObject(i);
                 String id = questionObj.getString("id");
 
+                // Checks if the question ID matches the set of provided question IDs
                 if (questionIdSet.contains(id)) {
+                    // Retrieves question text and options if the ID matches
                     String questionText = questionObj.getString("question");
                     JSONObject optionsJson = questionObj.getJSONObject("option");
 
@@ -432,17 +477,23 @@ public class TestActivity extends AppCompatActivity {
                             optionsJson.optString("e", null)
                     );
 
+                    // Retrieves the correct answer and optional suggestion text
                     String answer = questionObj.getString("answer");
                     String suggest = questionObj.optString("suggest", "");
+                    // Attempts to retrieve an image if available
                     JSONObject imageJson = questionObj.optJSONObject("image");
                     Question.Image image = imageJson != null ? new Question.Image(imageJson.getString("img1")) : null;
 
+                    // Adds the constructed Question to the question list
                     questionList.add(new Question(id, questionText, options, answer, suggest, image));
                 }
             }
         } catch (Exception e) {
+            // Logs any exceptions during the JSON reading and parsing process
             e.printStackTrace();
         }
+        // Returns the filtered list of questions
         return questionList;
     }
+
 }
