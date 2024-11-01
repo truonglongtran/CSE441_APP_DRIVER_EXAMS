@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
             if (incorrectAnswers.isEmpty()) {
                 // Show an alert dialog if there are no incorrect answers
                 new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Notification") // Set dialog title
-                        .setMessage("You have no incorrect answers to correct.") // Set dialog message
+                        .setTitle("Thông báo") // Set dialog title
+                        .setMessage("Bạn chưa có câu trả lời sai, cố gắng phát huy!.") // Set dialog message
                         .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()) // Dismiss dialog on positive button click
                         .show();
             } else {
@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
         Button btnDeleteData = findViewById(R.id.btnDeleteData);
         btnDeleteData.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Confirm Data Deletion") // Set dialog title
-                    .setMessage("Are you sure you want to delete all data?") // Set dialog message
-                    .setPositiveButton("Yes", (dialog, which) -> {
+                    .setTitle("Xác nhận xóa dữ liệu") // Set dialog title
+                    .setMessage("Bạn có chắc chắn muốn xóa tất cả dữ liệu không?") // Set dialog message
+                    .setPositiveButton("Đồng ý", (dialog, which) -> {
                         DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this); // Create a DatabaseHelper instance
                         databaseHelper.resetData(); // Reset all data in the database
                         Intent intent = new Intent(MainActivity.this, MainActivity.class);
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent); // Restart MainActivity
                         finish(); // Finish the current activity
                     })
-                    .setNegativeButton("Cancel", (dialog, which) -> {
+                    .setNegativeButton("Hủy", (dialog, which) -> {
                         dialog.dismiss(); // Dismiss the dialog on cancel
                         Intent intent = new Intent(MainActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Clear the activity stack

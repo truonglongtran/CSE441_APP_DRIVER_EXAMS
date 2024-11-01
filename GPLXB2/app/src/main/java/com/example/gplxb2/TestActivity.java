@@ -251,16 +251,16 @@ public class TestActivity extends AppCompatActivity {
     // Display a confirmation dialog for submitting answers
     private void showConfirmationDialog(final String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Confirm Submission"); // Dialog title
-        builder.setMessage("Are you sure you want to submit?"); // Dialog message
+        builder.setTitle("Xác nhận nộp bài"); // Dialog title
+        builder.setMessage("Bạn có chắc chắn muốn nộp bài?"); // Dialog message
 
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 submitAnswers(title); // Submit answers if user selects "Yes"
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss(); // Close the dialog if user selects "No"
